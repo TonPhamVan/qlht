@@ -68,8 +68,9 @@
                         <div class="form-group">
                           <label>Giới tính</label>
                           <select class="form-control" name="gender">
-                            <option value="Nam">Nam</option>
-                            <option value="Nữ">Nữ</option>
+                            <option selected disabled>Chọn giới tính</option>
+                            <option value="Nam" {{old('gender')=='Nam' ? 'selected':false}}>Nam</option>
+                            <option value="Nữ" {{old('gender')=='Nữ' ? 'selected':false}}>Nữ</option>
                           </select>
                         </div>
                     </div>
@@ -98,7 +99,7 @@
 
               <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
-                <a href="{{route('customers.index')}}" class="btn btn-warning">Back</a>
+                <a href="{{route('customers.index')}}" class="btn btn-success">Back</a>
                 @csrf
               </div>
             </form>

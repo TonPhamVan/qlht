@@ -37,4 +37,11 @@ Route::prefix('customers')->name('customers.')->group(function() {
     Route::post('/update',[CustomerController::class,'postEdit'])->name('postEdit');
 
     Route::get('/delete/{id}',[CustomerController::class,'delete'])->name('delete');
+
+    Route::get('/trash',[CustomerController::class,'trash'])->name('trash');
+
+    Route::get('/untrash/{id}',[CustomerController::class,'untrash'])->name('untrash');
+
+    Route::get('/forceDelete/{id}',[CustomerController::class,'forceDelete'])->name('forceDelete');
+
 });

@@ -35,7 +35,6 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-4">
-                                <a href="{{route('customers.add')}}" style="margin: 0 0 5px 0" class="btn btn-primary">Thêm khách hàng</a>
                             </div>
                             <div class="col-md-8" >
                                 <form action="" method="GET" style="margin: 0 0 5px 0">
@@ -61,7 +60,7 @@
                                 <th>Địa chỉ</th>
                                 <th>Số điện thoại</th>
                                 <th>Ngày tạo</th>
-                                <th width = "5%">Sửa</th>
+                                <th width = "5%">Khôi phục</th>
                                 <th width = "5%">Xóa</th>
                               </tr>
                             </thead>
@@ -77,12 +76,12 @@
                                             <td>{{$item->phone}}</td>
                                             <td>{{$item->created_at}}</td>
                                             <td>
-                                                <a href="{{route('customers.getEdit',['id'=>$item->id])}}" class ="btn btn-warning btn-md">
-                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                <a href="{{route('customers.untrash',['id'=>$item->id])}}" class ="btn btn-warning btn-md">
+                                                    <i class="fa-solid fa-trash-arrow-up"></i>
                                                 </a>
                                             </td>
                                             <td>
-                                                <a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{route('customers.delete',['id'=>$item->id])}}" class ="btn btn-danger btn-md">
+                                                <a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{route('customers.forceDelete',['id'=>$item->id])}}" class ="btn btn-danger btn-md">
                                                     <i class="fa-solid fa-trash-can"></i>
                                                 </a>
                                             </td>
@@ -105,7 +104,7 @@
                             {{$list->appends(request()->all())->links()}}
                         </div>
                         <div class="col-md-8">
-                            <a href="{{route('customers.trash')}}" class="btn btn-outline-danger float-right">Recycle Bin</a>
+                            <a href="{{route('customers.index')}}" style="margin: 0 0 5px 0" class="btn btn-success float-right">Back</a>
                         </div>
                       </div>
                     </div>

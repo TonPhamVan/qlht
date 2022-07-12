@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('edit-product')
+@section('add-customer')
 <section class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
@@ -40,29 +40,66 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form action="{{route('sanpham.postEdit')}}" method="POST">
+            <form action="{{route('customers.postEdit')}}" method="POST">
               <div class="card-body">
-                <div class="form-group">
-                    <label for="">Name</label>
-                    <input type="text" class="form-control"
-                    name="name" autofocus required placeholder="name..." value="{{old('name') ?? $productDetail->name}}">
-                    @error('name')
-                        <span style="color: red">{{$message}}</span>
-                    @enderror
-                  </div>
-                <div class="form-group">
-                  <label for="">Price</label>
-                  <input type="number" class="form-control"
-                    name="Price" autofocus required placeholder="price..." value="{{old('name') ?? $productDetail->Price}}">
-                    @error('price')
-                        <span style="color: red">{{$message}}</span>
-                    @enderror
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="">Mã khách hàng</label>
+                            <input type="text" class="form-control"
+                            name="id" autofocus required placeholder="Nhập mã khách hàng..." value="{{old('id') ?? $detail->id}}">
+                            @error('id')
+                                <span style="color: red">{{$message}}</span>
+                            @enderror
+                          </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="">Tên khách hàng</label>
+                            <input type="text" class="form-control"
+                              name="customer_name" required placeholder="Nhập tên khách hàng..." value="{{old('customer_name') ?? $detail->customer_name}}">
+                              @error('customer_name')
+                                  <span style="color: red">{{$message}}</span>
+                              @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <!-- select -->
+                        <div class="form-group">
+                          <label>Giới tính</label>
+                          <select class="form-control" name="gender">
+                            <option selected disabled>Chọn giới tính</option>
+                            <option value="Nam" {{old('gender')=='Nam' || $detail->gender=='Nam' ? 'selected':false}}>Nam</option>
+                            <option value="Nữ" {{old('gender')=='Nam' || $detail->gender=='Nữ' ? 'selected':false}}>Nữ</option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="">Số điện thoại</label>
+                            <input type="text" class="form-control"
+                              name="phone" required placeholder="Nhập số điện thoại..." value="{{old('phone') ?? $detail->phone}}">
+                              @error('phone')
+                                  <span style="color: red">{{$message}}</span>
+                              @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="">Địa chỉ</label>
+                            <input type="text" class="form-control"
+                              name="address" placeholder="Nhập địa chỉ..." value="{{old('address') ?? $detail->address}}">
+                              @error('address')
+                                  <span style="color: red">{{$message}}</span>
+                              @enderror
+                        </div>
+                    </div>
                 </div>
               <!-- /.card-body -->
 
               <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
-                <a href="{{route('sanpham.index')}}" class="btn btn-warning">Back</a>
+                <a href="{{route('customers.index')}}" class="btn btn-warning">Back</a>
                 @csrf
               </div>
             </form>

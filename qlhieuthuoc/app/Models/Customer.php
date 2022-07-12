@@ -4,54 +4,52 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Customer extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     protected $table = 'customers';
-    public function getAllCustomer() {
-        // return Customer::paginate(5);
-        return DB::table($this->table)
-        ->select('*')
-        ->get();
+    protected $primaryKey = 'id';
+    // ko tự tăng ko phải kiểu int
+    public $incrementing = false;
+
+    public function getAll() {
+        return Customer::orderBy('created_at','DESC')
+        ->where('deleted_at',null)
+        ->paginate(5);
     }
-    public function searchCustomer($searchCustomer) {
-        return DB::table($this->table)
-        ->select('*')
-        ->where('customer_name','like','%'.$searchCustomer.'%')
-        ->get();
+    public function getSearch($search) {
+        return Customer::orderBy('created_at','DESC')
+        ->where('customer_name','like','%'.$search.'%')
+        ->where('deleted_at',null)
+        ->paginate(5);
     }
-    public function addCustomer($data){
-        return DB::table($this->table)
-        ->insert([
-            'id'=> $data[0],
-            'customer_name'=>$data[1],
-            'gender'=>$data[2],
-            'address'=>$data[3],
-            'phone'=>$data[4],
-            'create_at'=>$data[5],
-        ]);
+    public function postAdd($data){
+        return Customer::insert($data);
     }
     public function getDetail($id) {
-        return DB::table($this->table)
-        ->where('id',$id)
+        return Customer::where('id',$id)
         ->get();
     }
-    public function updateCustomer($data,$id){
-        $data[] = $id;
-        return DB::table($this->table)
-        ->where('id',$id)
-        ->update([
-            'name'=> $data[0],
-            'Price'=>$data[1],
-            'update_at'=>$data[2]
-
-        ]);
+    public function postUpdate($data,$id){
+        return Customer::where('id',$id)
+        ->update($data);
     }
-    public function deleteCustomer($id) {
-        return DB::table($this->table)
-        ->where('id',$id)
+    public function postDelete($id) {
+        return Customer::where('id',$id)
         ->delete();
+    }
+    public function trashDelete() {
+        return Customer::onlyTrashed()
+        ->orderBy('created_at','DESC')
+        ->paginate(5);
+    }
+    public function trashSearch($search) {
+        return Customer::onlyTrashed()
+        ->orderBy('created_at','DESC')
+        ->where('customer_name','like','%'.$search.'%')
+        ->paginate(5);
     }
 }
