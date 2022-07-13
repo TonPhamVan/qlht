@@ -25,7 +25,14 @@
     <!-- Content Header (Page header) -->
     @yield('add-customer')
     @yield('list-customer')
+    @yield('listdelete-customer')
     @yield('edit-customer')
+
+    {{-- drug_groups --}}
+    @yield('add-drug_group')
+    @yield('list-drug_group')
+    @yield('listdelete-drug_group')
+    @yield('edit-drug_group')
 
   </div>
   <!-- /.content-wrapper -->

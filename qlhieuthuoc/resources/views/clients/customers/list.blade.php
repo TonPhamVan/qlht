@@ -55,7 +55,6 @@
                             <thead>
                               <tr>
                                 <th style="width: 10px">STT</th>
-                                <th>Mã khách hàng</th>
                                 <th>Tên khách hàng</th>
                                 <th>Giới tính</th>
                                 <th>Địa chỉ</th>
@@ -70,7 +69,6 @@
                                     @foreach ($list as $key => $item)
                                         <tr>
                                             <td>{{$key+1}}</td>
-                                            <td>{{$item->id}}</td>
                                             <td>{{$item->customer_name}}</td>
                                             <td>{{$item->gender}}</td>
                                             <td>{{$item->address}}</td>

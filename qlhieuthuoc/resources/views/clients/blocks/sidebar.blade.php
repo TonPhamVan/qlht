@@ -36,7 +36,7 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
-                <a href="pages/gallery.html" class="nav-link">
+                <a href="/" class="nav-link">
                     <i class="fa-solid fa-house-chimney nav-icon"></i>
                   <p>
                     Trang Chủ
@@ -76,9 +76,15 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/tables/simple.html" class="nav-link">
+                <a href="{{route('drug_groups.index')}}" class="nav-link">
                  <i class="fa-solid fa-list nav-icon"></i>
                   <p>Nhóm Thuốc</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('drug_groups.add')}}" class="nav-link">
+                    <i class="fa-solid fa-circle-plus nav-icon"></i>
+                  <p>Thêm nhóm thuốc</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -146,7 +152,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/tables/jsgrid.html" class="nav-link">
+                <a href="{{route('customers.add')}}" class="nav-link">
                     <i class="fa-solid fa-circle-plus nav-icon"></i>
                   <p>Thêm khách hàng</p>
                 </a>

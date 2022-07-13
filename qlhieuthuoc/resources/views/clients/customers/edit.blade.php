@@ -1,7 +1,7 @@
 @extends('layouts.master')
-@section('add-customer')
+@section('edit-customer')
 <section class="content-header">
-    <div class="container-fluid">
+    {{-- <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
           <h1>{{$title}}</h1>
@@ -13,7 +13,7 @@
           </ol>
         </div>
       </div>
-    </div><!-- /.container-fluid -->
+    </div><!-- /.container-fluid --> --}}
   </section>
 
   <!-- Main content -->
@@ -45,16 +45,6 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="">Mã khách hàng</label>
-                            <input type="text" class="form-control"
-                            name="id" autofocus required placeholder="Nhập mã khách hàng..." value="{{old('id') ?? $detail->id}}">
-                            @error('id')
-                                <span style="color: red">{{$message}}</span>
-                            @enderror
-                          </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
                             <label for="">Tên khách hàng</label>
                             <input type="text" class="form-control"
                               name="customer_name" required placeholder="Nhập tên khách hàng..." value="{{old('customer_name') ?? $detail->customer_name}}">
@@ -84,7 +74,7 @@
                               @enderror
                         </div>
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label for="">Địa chỉ</label>
                             <input type="text" class="form-control"

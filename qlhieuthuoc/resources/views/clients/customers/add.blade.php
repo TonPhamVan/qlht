@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('add-customer')
 <section class="content-header">
-    <div class="container-fluid">
+    {{-- <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
           <h1>{{$title}}</h1>
@@ -13,7 +13,7 @@
           </ol>
         </div>
       </div>
-    </div><!-- /.container-fluid -->
+    </div><!-- /.container-fluid --> --}}
   </section>
 
   <!-- Main content -->
@@ -40,19 +40,9 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form action="" method="POST">
+            <form action="{{route('customers.postAdd')}}" method="POST">
               <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="">Mã khách hàng</label>
-                            <input type="text" class="form-control"
-                            name="id" autofocus required placeholder="Nhập mã khách hàng..." value="{{old('id')}}">
-                            @error('id')
-                                <span style="color: red">{{$message}}</span>
-                            @enderror
-                          </div>
-                    </div>
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="">Tên khách hàng</label>
@@ -77,14 +67,14 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="">Số điện thoại</label>
-                            <input type="text" class="form-control"
+                            <input type="tel" class="form-control"
                               name="phone" required placeholder="Nhập số điện thoại..." value="{{old('phone')}}">
                               @error('phone')
                                   <span style="color: red">{{$message}}</span>
                               @enderror
                         </div>
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label for="">Địa chỉ</label>
                             <input type="text" class="form-control"

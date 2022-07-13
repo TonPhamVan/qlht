@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('listdelete-customer')
+@section('list-drug_group')
 <section class="content-header">
     {{-- <div class="container-fluid">
       <div class="row mb-2">
@@ -35,11 +35,12 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-4">
+                                <a href="{{route('drug_groups.add')}}" style="margin: 0 0 5px 0" class="btn btn-primary">Thêm nhóm thuốc</a>
                             </div>
                             <div class="col-md-8" >
                                 <form action="" method="GET" style="margin: 0 0 5px 0">
                                     <div class="input-group input-group-md">
-                                        <input type="text" name="search" class="form-control form-control-lg" placeholder="Tìm kiếm tên khách hàng">
+                                        <input type="text" name="search" class="form-control form-control-lg" placeholder="Tìm kiếm tên nhóm thuốc">
                                         <div class="input-group-append">
                                             <button type="submit" class="btn btn-lg btn-default btn-secondary">
                                                 <i class="fa fa-search"></i>
@@ -54,32 +55,28 @@
                             <thead>
                               <tr>
                                 <th style="width: 10px">STT</th>
-                                <th>Tên khách hàng</th>
-                                <th>Giới tính</th>
-                                <th>Địa chỉ</th>
-                                <th>Số điện thoại</th>
+                                <th>Tên nhóm thuốc</th>
+                                <th>Ghi chú</th>
                                 <th>Ngày tạo</th>
-                                <th width = "5%">Khôi phục</th>
+                                <th width = "5%">Sửa</th>
                                 <th width = "5%">Xóa</th>
                               </tr>
                             </thead>
                             <tbody>
-                                @if (!empty($listdelete))
-                                    @foreach ($listdelete as $key => $item)
+                                @if (!empty($list))
+                                    @foreach ($list as $key => $item)
                                         <tr>
                                             <td>{{$key+1}}</td>
-                                            <td>{{$item->customer_name}}</td>
-                                            <td>{{$item->gender}}</td>
-                                            <td>{{$item->address}}</td>
-                                            <td>{{$item->phone}}</td>
+                                            <td>{{$item->name_drug_group}}</td>
+                                            <td>{{$item->note}}</td>
                                             <td>{{$item->created_at}}</td>
                                             <td>
-                                                <a href="{{route('customers.untrash',['id'=>$item->id])}}" class ="btn btn-warning btn-md">
-                                                    <i class="fa-solid fa-trash-arrow-up"></i>
+                                                <a href="{{route('drug_groups.getEdit',['id'=>$item->id])}}" class ="btn btn-warning btn-md">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
                                                 </a>
                                             </td>
                                             <td>
-                                                <a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{route('customers.forceDelete',['id'=>$item->id])}}" class ="btn btn-danger btn-md">
+                                                <a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{route('drug_groups.delete',['id'=>$item->id])}}" class ="btn btn-danger btn-md">
                                                     <i class="fa-solid fa-trash-can"></i>
                                                 </a>
                                             </td>
@@ -87,7 +84,7 @@
                                     @endforeach
                                 @else
                                       <tr>
-                                        <td colspan="7">Không có thông tin khách hàng</td>
+                                        <td colspan="7">Không có thông tin nhóm thuốc</td>
                                       </tr>
                                 @endif
 
@@ -99,10 +96,10 @@
                     <div class="card-footer clearfix">
                       <div class="row">
                         <div class="col-md-4">
-                            {{$listdelete->appends(request()->all())->links()}}
+                            {{$list->appends(request()->all())->links()}}
                         </div>
                         <div class="col-md-8">
-                            <a href="{{route('customers.index')}}" style="margin: 0 0 5px 0" class="btn btn-success float-right">Back</a>
+                            <a href="{{route('drug_groups.trash')}}" class="btn btn-outline-danger float-right">Recycle Bin</a>
                         </div>
                       </div>
                     </div>

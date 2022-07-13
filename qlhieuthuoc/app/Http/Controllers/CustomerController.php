@@ -12,50 +12,56 @@ class CustomerController extends Controller
     {
         $this->customer = new Customer();
     }
+    //danh sách khách hàng
     public function index(Request $request) {
         $title = 'Thông tin khách hàng';
         if(!empty($search = $request->search)){
-            $list = $this->customer->getSearch($search);
+            $list = Customer::orderBy('created_at','DESC')
+            ->where('customer_name','like','%'.$search.'%')
+            ->where('deleted_at',null)
+            ->paginate(5);
         } else{
-            $list = $this->customer->getAll();
+            $list = Customer::orderBy('created_at','DESC')
+            ->where('deleted_at',null)
+            ->paginate(5);
         }
         return view('clients.customers.list',compact('title','list'))->with('i',(request()->input('page',1)-1)*1);
 
     }
+    // thêm thông tin khách hàng
     public function add() {
         $title = 'Thêm thông tin khách hàng';
         return view('clients.customers.add',compact('title'));
     }
     public function postAdd(Request $request) {
         $request->validate([
-            'id' => 'required|unique:customers',
             'customer_name' => 'required',
-            'phone' => 'required|size:10',
+            'phone' => 'required|size:10|unique:customers',
 
         ],[
-            'id.required' => "Mã khách hàng bắt buộc phải nhập",
-            'id.unique' => "Mã khách hàng đã tồn tại",
             'customer_name.required' => "Tên khách hàng bắt buộc phải nhập",
             'phone.required' => 'Số điện thoại bắt buộc phải nhập',
             'phone.size' => 'Số điện thoại phải có :size số',
+            'phone.unique' => "Số điện thoại đã tồn tại",
 
         ]);
         $dataInsert = [
-            'id'=>$request->id,
             'customer_name'=>$request->customer_name,
             'gender'=>$request->gender,
             'address'=>$request->address,
             'phone'=>$request->phone,
             'created_at'=>date('Y-m-d H:i:s')
         ];
-        $this->customer->postAdd($dataInsert);
+        Customer::insert($dataInsert);
 
         return redirect()->route('customers.index')->with('msg','Thêm thông tin khách hàng thành công');
     }
+
+    //sửa thông tin
     public function getEdit(Request $request, $id=0) {
         $title = "Sửa thông tin khách hàng";
         if(!empty($id)){
-            $detail = $this->customer->getDetail($id);
+            $detail = Customer::where('id',$id)->get();
             if(!empty($detail[0])){
                 $request->session()->put('id',$id);
                 $detail = $detail[0];
@@ -72,36 +78,33 @@ class CustomerController extends Controller
             return back()->with('msg','Liên kết không tồn tại');
         }
         $request->validate([
-            'id' => 'required|unique:customers,id,'.$id,
             'customer_name' => 'required',
             'phone' => 'required|size:10',
 
         ],[
-            'id.required' => "Mã khách hàng bắt buộc phải nhập",
-            'id.unique' => "Mã khách hàng đã tồn tại",
             'customer_name.required' => "Tên khách hàng bắt buộc phải nhập",
             'phone.required' => 'Số điện thoại bắt buộc phải nhập',
             'phone.size' => 'Số điện thoại phải có :size số',
 
         ]);
         $dataUpdate = [
-            'id'=>$request->id,
             'customer_name'=>$request->customer_name,
             'gender'=>$request->gender,
             'address'=>$request->address,
             'phone'=>$request->phone,
             'updated_at'=>date('Y-m-d H:i:s')
         ];
-        $this->customer->postUpdate($dataUpdate,$id);
-
+        Customer::where('id',$id)
+        ->update($dataUpdate);
         return redirect()->route('customers.index')->with('msg','Cập nhật thông tin khách hàng thành công');
 
     }
+    //xóa mềm
     public function delete($id=0) {
         if(!empty($id)){
-            $detail = $this->customer->getDetail($id);
+            $detail = Customer::where('id',$id)->get();
             if(!empty($detail[0])){
-                $deleteStatus = $this->customer->postDelete($id);
+                $deleteStatus = Customer::where('id',$id)->delete();
                 if($deleteStatus){
                     $msg = 'Xóa người dùng thành công';
                 } else {
@@ -116,16 +119,23 @@ class CustomerController extends Controller
         return redirect()->route('customers.index')->with('msg',$msg);
     }
 
+    //danh sách khách hàng đã xóa
     public function trash(Request $request){
         $title = 'Thông tin khách hàng đã xóa';
         if(!empty($search = $request->search)){
-            $list = $this->customer->trashSearch($search);
+            $listdelete = Customer::onlyTrashed()
+                    ->orderBy('created_at','DESC')
+                    ->where('customer_name','like','%'.$search.'%')
+                    ->paginate(5);
         } else{
-            $list = $this->customer->trashDelete();
+            $listdelete = Customer::onlyTrashed()
+                    ->orderBy('created_at','DESC')
+                    ->paginate(5);
         }
-        return view('clients.customers.listdelete',compact('title','list'))->with('i',(request()->input('page',1)-1)*1);
+        return view('clients.customers.listdelete',compact('title','listdelete'))->with('i',(request()->input('page',1)-1)*1);
     }
 
+    //phục hồi
     public function untrash($id=0) {
         $deleteStatus = Customer::withTrashed()
         ->where('id',$id);
@@ -138,6 +148,7 @@ class CustomerController extends Controller
 
         return redirect()->route('customers.trash')->with('msg',$msg);
     }
+    //xóa hẳn
     public function forceDelete($id=0) {
         $deleteStatus = Customer::withTrashed()
         ->where('id',$id);
