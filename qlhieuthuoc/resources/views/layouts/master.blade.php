@@ -34,6 +34,12 @@
     @yield('listdelete-drug_group')
     @yield('edit-drug_group')
 
+    {{-- drug --}}
+    @yield('add-drug')
+    @yield('list-drug')
+    @yield('listdelete-drug')
+    @yield('edit-drug')
+
   </div>
   <!-- /.content-wrapper -->
 

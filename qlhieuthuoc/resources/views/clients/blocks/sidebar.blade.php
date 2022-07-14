@@ -88,13 +88,13 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/tables/data.html" class="nav-link">
+                <a href="{{route('drugs.index')}}" class="nav-link">
                     <i class="fa-solid fa-list nav-icon"></i>
                   <p>Danh sách thuốc</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/tables/jsgrid.html" class="nav-link">
+                <a href="{{route('drugs.add')}}" class="nav-link">
                     <i class="fa-solid fa-circle-plus nav-icon"></i>
                   <p>Thêm thuốc</p>
                 </a>

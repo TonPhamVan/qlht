@@ -69,8 +69,7 @@ CREATE TABLE `drugs` (
   `ingredient` text COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Thành phần',
   `uses` text COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'công dụng',
   `producer` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'nhà sản xuất',
-  `date_production` date NOT NULL COMMENT 'ngày sản xuất thuốc',
-  `date_expiration` date NOT NULL COMMENT 'hạn sử dụng của thuốc',
+  `quantity` int(11) NOT NULL COMMENT 'số lượng',
   `price` decimal(10,0) NOT NULL COMMENT 'đơn giá thuốc',
   `unit` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Hộp' COMMENT 'đơn vị thuốc',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -109,14 +108,22 @@ INSERT INTO `drug_groups` (`id`, `name_drug_group`, `note`, `created_at`, `updat
 -- Table structure for table `export_bills`
 --
 
+CREATE TABLE `export_details` (
+  `id` int(11) NOT NULL COMMENT 'mã chi tiết bán',
+  `drug_id` int(11) NOT NULL COMMENT 'mã thuốc',
+  `quantity_export` int(11) NOT NULL COMMENT 'số lượng xuất',
+  `price_export` decimal(10,0) NOT NULL COMMENT 'đơn giá bán',
+  `unit` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'hộp' COMMENT 'đơn vị thuốc',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'ngày bán',
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE `export_bills` (
   `id` int(11) NOT NULL COMMENT 'mã hóa đơn bán',
-  `drug_id` int(11) NOT NULL COMMENT 'mã thuốc',
+  `export_detail_id` int(11) NOT NULL COMMENT 'mã chi tiết bán',
   `user_id` int(11) NOT NULL COMMENT 'mã tài khoản',
   `customer_id` int(11) NOT NULL COMMENT 'mã khách hàng',
-  `quantity` int(11) NOT NULL COMMENT 'số lượng',
-  `price` decimal(10,0) NOT NULL COMMENT 'đơn giá bán',
-  `unit` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'hộp' COMMENT 'đơn vị thuốc',
   `total_price` decimal(10,0) NOT NULL COMMENT 'tổng tiền',
   `notes` text COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'ghi chú thông tin bán ',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'ngày bán',
@@ -124,21 +131,32 @@ CREATE TABLE `export_bills` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `import_bills`
 --
 
+
+CREATE TABLE `import_details` (
+  `id` int(11) NOT NULL COMMENT 'mã chi tiết nhập',
+  `drug_id` int(11) NOT NULL COMMENT 'mã thuốc',
+  `quantity_import` int(11) NOT NULL COMMENT 'số lượng nhập',
+  `price_import` decimal(10,0) NOT NULL COMMENT 'đơn giá nhập',
+  `unit` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'hộp' COMMENT 'đơn vị thuốc',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'ngày nhập',
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
 CREATE TABLE `import_bills` (
   `id` int(11) NOT NULL COMMENT 'mã hóa đơn nhập',
-  `drug_id` int(11) NOT NULL COMMENT 'mã thuốc',
+  `import_detail_id` int(11) NOT NULL COMMENT 'mã chi tiết nhập',
   `supplier_id` int(11) NOT NULL COMMENT 'mã nhà cung cấp',
-  `quantity` int(11) NOT NULL COMMENT 'số lượng',
-  `price` decimal(10,0) NOT NULL COMMENT 'đơn giá nhập',
-  `unit` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'hộp' COMMENT 'đơn vị thuốc',
   `note` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'ghi chú',
-  `total_price` decimal(10,0) NOT NULL COMMENT 'tổng tiền',
+  `total_price` decimal(10,0) NOT NULL COMMENT 'tổng tiền nhập',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'ngày nhập',
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -228,19 +246,10 @@ ALTER TABLE `drug_groups`
 --
 -- Indexes for table `export_bills`
 --
-ALTER TABLE `export_bills`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `customer_id` (`customer_id`),
-  ADD KEY `drug_id` (`drug_id`);
 
 --
 -- Indexes for table `import_bills`
 --
-ALTER TABLE `import_bills`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `supplier_id` (`supplier_id`),
-  ADD KEY `drug_id` (`drug_id`);
 
 --
 -- Indexes for table `permissions`
@@ -289,14 +298,6 @@ ALTER TABLE `drug_groups`
 --
 -- AUTO_INCREMENT for table `export_bills`
 --
-ALTER TABLE `export_bills`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã hóa đơn bán';
-
---
--- AUTO_INCREMENT for table `import_bills`
---
-ALTER TABLE `import_bills`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã hóa đơn nhập';
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -329,18 +330,9 @@ ALTER TABLE `drugs`
 --
 -- Constraints for table `export_bills`
 --
-ALTER TABLE `export_bills`
-  ADD CONSTRAINT `export_bills_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `export_bills_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
-  ADD CONSTRAINT `export_bills_ibfk_3` FOREIGN KEY (`drug_id`) REFERENCES `drugs` (`id`);
 
 --
 -- Constraints for table `import_bills`
---
-ALTER TABLE `import_bills`
-  ADD CONSTRAINT `import_bills_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`),
-  ADD CONSTRAINT `import_bills_ibfk_2` FOREIGN KEY (`drug_id`) REFERENCES `drugs` (`id`);
-
 --
 -- Constraints for table `users`
 --

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DrugController;
 use App\Http\Controllers\DrugGroupController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
@@ -65,5 +66,26 @@ Route::prefix('drug_groups')->name('drug_groups.')->group(function() {
     Route::get('/untrash/{id}',[DrugGroupController::class,'untrash'])->name('untrash');
 
     Route::get('/forceDelete/{id}',[DrugGroupController::class,'forceDelete'])->name('forceDelete');
+
+});
+
+Route::prefix('drugs')->name('drugs.')->group(function() {
+    Route::get('/',[DrugController::class,'index'])->name('index');
+
+    Route::get('/add',[DrugController::class,'add'])->name('add');
+
+    Route::post('/add',[DrugController::class,'postAdd'])->name('postAdd');
+
+    Route::get('/edit/{id}',[DrugController::class,'getEdit'])->name('getEdit');
+
+    Route::post('/update',[DrugController::class,'postEdit'])->name('postEdit');
+
+    Route::get('/delete/{id}',[DrugController::class,'delete'])->name('delete');
+
+    Route::get('/trash',[DrugController::class,'trash'])->name('trash');
+
+    Route::get('/untrash/{id}',[DrugController::class,'untrash'])->name('untrash');
+
+    Route::get('/forceDelete/{id}',[DrugController::class,'forceDelete'])->name('forceDelete');
 
 });
