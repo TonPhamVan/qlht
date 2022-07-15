@@ -40,6 +40,17 @@
     @yield('listdelete-drug')
     @yield('edit-drug')
 
+    {{-- supplier --}}
+    @yield('add-supplier')
+    @yield('list-supplier')
+    @yield('listdelete-supplier')
+    @yield('edit-supplier')
+
+    {{-- import_detail --}}
+    @yield('add-import_detail')
+    @yield('list-import_detail')
+    @yield('listdelete-import_detail')
+    @yield('edit-import_detail')
   </div>
   <!-- /.content-wrapper -->
 

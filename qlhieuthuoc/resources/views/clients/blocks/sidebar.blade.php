@@ -111,15 +111,9 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="pages/tables/simple.html" class="nav-link">
+                    <a href="{{route('import_details.index')}}" class="nav-link">
                         <i class="fa-solid fa-circle-arrow-down nav-icon"></i>
                       <p>Nhập Thuốc</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/tables/data.html" class="nav-link">
-                        <i class="fa-solid fa-list nav-icon"></i>
-                      <p>Danh sách hóa đơn nhập</p>
                     </a>
                   </li>
                   <li class="nav-item">
@@ -169,13 +163,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/tables/data.html" class="nav-link">
+                <a href="{{route('suppliers.index')}}" class="nav-link">
                     <i class="fa-solid fa-list nav-icon"></i>
                   <p>Danh sách nhà cung cấp</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/tables/jsgrid.html" class="nav-link">
+                <a href="{{route('suppliers.add')}}" class="nav-link">
                     <i class="fa-solid fa-circle-plus nav-icon"></i>
                   <p>Thêm nhà cung cấp</p>
                 </a>

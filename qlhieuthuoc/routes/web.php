@@ -3,7 +3,9 @@
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DrugController;
 use App\Http\Controllers\DrugGroupController;
+use App\Http\Controllers\ImportDetailController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -87,5 +89,47 @@ Route::prefix('drugs')->name('drugs.')->group(function() {
     Route::get('/untrash/{id}',[DrugController::class,'untrash'])->name('untrash');
 
     Route::get('/forceDelete/{id}',[DrugController::class,'forceDelete'])->name('forceDelete');
+
+});
+
+Route::prefix('suppliers')->name('suppliers.')->group(function() {
+    Route::get('/',[SupplierController::class,'index'])->name('index');
+
+    Route::get('/add',[SupplierController::class,'add'])->name('add');
+
+    Route::post('/add',[SupplierController::class,'postAdd'])->name('postAdd');
+
+    Route::get('/edit/{id}',[SupplierController::class,'getEdit'])->name('getEdit');
+
+    Route::post('/update',[SupplierController::class,'postEdit'])->name('postEdit');
+
+    Route::get('/delete/{id}',[SupplierController::class,'delete'])->name('delete');
+
+    Route::get('/trash',[SupplierController::class,'trash'])->name('trash');
+
+    Route::get('/untrash/{id}',[SupplierController::class,'untrash'])->name('untrash');
+
+    Route::get('/forceDelete/{id}',[SupplierController::class,'forceDelete'])->name('forceDelete');
+
+});
+
+Route::prefix('import_details')->name('import_details.')->group(function() {
+    Route::get('/',[ImportDetailController::class,'index'])->name('index');
+
+    Route::get('/add',[ImportDetailController::class,'add'])->name('add');
+
+    Route::post('/add',[ImportDetailController::class,'postAdd'])->name('postAdd');
+
+    Route::get('/edit/{id}',[ImportDetailController::class,'getEdit'])->name('getEdit');
+
+    Route::post('/update',[ImportDetailController::class,'postEdit'])->name('postEdit');
+
+    Route::get('/delete/{id}',[ImportDetailController::class,'delete'])->name('delete');
+
+    Route::get('/trash',[ImportDetailController::class,'trash'])->name('trash');
+
+    Route::get('/untrash/{id}',[ImportDetailController::class,'untrash'])->name('untrash');
+
+    Route::get('/forceDelete/{id}',[ImportDetailController::class,'forceDelete'])->name('forceDelete');
 
 });
