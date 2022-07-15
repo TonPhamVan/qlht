@@ -36,13 +36,14 @@ class CustomerController extends Controller
     public function postAdd(Request $request) {
         $request->validate([
             'customer_name' => 'required',
-            'phone' => 'required|size:10|unique:customers',
+            'phone' => 'required|digits:10|unique:customers|numeric',
 
         ],[
             'customer_name.required' => "Tên khách hàng bắt buộc phải nhập",
             'phone.required' => 'Số điện thoại bắt buộc phải nhập',
-            'phone.size' => 'Số điện thoại phải có :size số',
+            'phone.size' => 'Số điện thoại phải có :digits số',
             'phone.unique' => "Số điện thoại đã tồn tại",
+            'phone.numeric' => "Số điện thoại phải là dạng số",
 
         ]);
         $dataInsert = [
@@ -79,12 +80,13 @@ class CustomerController extends Controller
         }
         $request->validate([
             'customer_name' => 'required',
-            'phone' => 'required|size:10',
+            'phone' => 'required|digits:10|numeric',
 
         ],[
             'customer_name.required' => "Tên khách hàng bắt buộc phải nhập",
             'phone.required' => 'Số điện thoại bắt buộc phải nhập',
-            'phone.size' => 'Số điện thoại phải có :size số',
+            'phone.size' => 'Số điện thoại phải có :digits số',
+            'phone.numeric' => 'Số điện thoại phải là dạng số',
 
         ]);
         $dataUpdate = [

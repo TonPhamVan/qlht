@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('add-drug_group')
+@section('add-drug')
 <section class="content-header">
     {{-- <div class="container-fluid">
       <div class="row mb-2">
@@ -59,8 +59,8 @@
                       <label>Nhóm thuốc</label>
                       <select class="form-control" name="id_drug_group">
                         <option selected disabled>Chọn tên nhóm thuốc</option>
-                        @if (!empty($drugGroup))
-                            @foreach ($drugGroup as $item)
+                        @if (!empty($drugGroupName))
+                            @foreach ($drugGroupName as $item)
                             <option value="{{$item->id}}">{{$item->name_drug_group}}</option>
                             @endforeach
                         @endif
@@ -101,8 +101,8 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="">Giá bán</label>
-                        <input type="text" class="form-control"
-                          name="price" placeholder="Nhập giá bán thuốc..." value="{{old('price')}}">
+                        <input type="number" class="form-control"
+                          name="price" pattern="[-+]?[0-9]" min="500"  placeholder="Nhập giá bán thuốc..." value="{{old('price')}}">
                           @error('price')
                               <span style="color: red">{{$message}}</span>
                           @enderror

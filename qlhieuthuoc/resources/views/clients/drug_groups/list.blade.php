@@ -40,7 +40,7 @@
                             <div class="col-md-8" >
                                 <form action="" method="GET" style="margin: 0 0 5px 0">
                                     <div class="input-group input-group-md">
-                                        <input type="text" name="search" class="form-control form-control-lg" placeholder="Tìm kiếm tên nhóm thuốc">
+                                        <input type="text" name="search" value="{{old('search')}}" class="form-control form-control-lg" placeholder="Tìm kiếm tên nhóm thuốc">
                                         <div class="input-group-append">
                                             <button type="submit" class="btn btn-lg btn-default btn-secondary">
                                                 <i class="fa fa-search"></i>

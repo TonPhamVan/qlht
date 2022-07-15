@@ -38,9 +38,9 @@
                                 <a href="{{route('drugs.add')}}" style="margin: 0 0 5px 0" class="btn btn-primary">Thêm thuốc</a>
                             </div>
                             <div class="col-md-8" >
-                                <form action="{{route('drugs.postAdd')}}" method="GET" style="margin: 0 0 5px 0">
+                                <form action="" method="GET" style="margin: 0 0 5px 0">
                                     <div class="input-group input-group-md">
-                                        <input type="text" name="search" class="form-control form-control-lg" placeholder="Tìm kiếm tên thuốc">
+                                        <input type="text" name="search" value="{{old('search')}}" class="form-control form-control-lg" placeholder="Tìm kiếm tên thuốc">
                                         <div class="input-group-append">
                                             <button type="submit" class="btn btn-lg btn-default btn-secondary">
                                                 <i class="fa fa-search"></i>
@@ -57,12 +57,12 @@
                                 <th style="width: 10px">STT</th>
                                 <th>Tên thuốc</th>
                                 <th>Tên nhóm thuốc</th>
+                                <th>Giá bán</th>
+                                <th>Đơn vị thuốc</th>
                                 <th>Thành phần</th>
                                 <th>Công dụng</th>
                                 <th>Nhà sản xuất</th>
                                 <th>Số lượng</th>
-                                <th>Giá bán</th>
-                                <th>Đơn vị thuốc</th>
                                 <th>Ngày tạo</th>
                                 <th width = "5%">Sửa</th>
                                 <th width = "5%">Xóa</th>
@@ -75,12 +75,12 @@
                                             <td>{{$key+1}}</td>
                                             <td>{{$item->drug_name}}</td>
                                             <td>{{$item->name_drug_group}}</td>
+                                            <td>{{$item->price}}</td>
+                                            <td>{{$item->unit}}</td>
                                             <td>{{$item->ingredient}}</td>
                                             <td>{{$item->uses}}</td>
                                             <td>{{$item->producer}}</td>
                                             <td>{{$item->quantity}}</td>
-                                            <td>{{$item->price}}</td>
-                                            <td>{{$item->unit}}</td>
                                             <td>{{$item->created_at}}</td>
                                             <td>
                                                 <a href="{{route('drugs.getEdit',['id'=>$item->id])}}" class ="btn btn-warning btn-md">

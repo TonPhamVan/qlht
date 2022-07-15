@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('edit-drug_group')
+@section('edit-drug')
 <section class="content-header">
     {{-- <div class="container-fluid">
       <div class="row mb-2">
@@ -21,8 +21,8 @@
     <div class="container-fluid">
       <div class="row">
         <!-- left column -->
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+        <div class="col-md-1"></div>
+        <div class="col-md-9">
           <!-- general form elements -->
           <div class="card card-primary">
             <div class="card-header">
@@ -40,35 +40,92 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form action="{{route('drug_groups.postEdit')}}" method="POST">
-              <div class="card-body">
-                <div class="row">
+            <form action="{{route('drugs.postEdit')}}" method="POST">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="">Tên thuốc</label>
+                                <input type="text" class="form-control"
+                                  name="drug_name" required placeholder="Nhập tên thuốc..." value="{{old('drug_name') ?? $detail->drug_name}}">
+                                  @error('drug_name')
+                                      <span style="color: red">{{$message}}</span>
+                                  @enderror
+                            </div>
+                        </div>
+                      <div class="col-sm-6">
+                        <!-- select -->
+                        <div class="form-group">
+                          <label>Nhóm thuốc</label>
+                          <select class="form-control" name="id_drug_group">
+                            <option selected disabled>Chọn tên nhóm thuốc</option>
+                            @if (!empty($drugGroupName))
+                                @foreach ($drugGroupName as $item)
+                                    <option value="{{$item->id}}">{{$item->name_drug_group}}</option>
+                                @endforeach
+                            @endif
+                          </select>
+                        </div>
+
+                    </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="">Tên nhóm thuốc</label>
+                            <label for="">Thành phần</label>
                             <input type="text" class="form-control"
-                              name="name_drug_group" required placeholder="Nhập tên nhóm thuốc..." value="{{old('name_drug_group') ?? $detail->name_drug_group}}">
-                              @error('name_drug_group')
+                              name="ingredient" placeholder="Nhập thành phần thuốc..." value="{{old('ingredient') ?? $detail->ingredient}}">
+                              @error('ingredient')
                                   <span style="color: red">{{$message}}</span>
                               @enderror
                         </div>
                     </div>
-                    <div class="col-sm-12">
-                      <div class="form-group">
-                          <label for="">Ghi chú</label>
-                          <input type="text" class="form-control"
-                            name="note" placeholder="Ghi chú nhóm thuốc..." value="{{old('note') ?? $detail->note}}">
-                            @error('note')
-                                <span style="color: red">{{$message}}</span>
-                            @enderror
-                      </div>
-                  </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="">Công dụng</label>
+                            <input type="text" class="form-control"
+                              name="uses" placeholder="Nhập công dụng thuốc..." value="{{old('uses') ?? $detail->uses}}">
+                              @error('uses')
+                                  <span style="color: red">{{$message}}</span>
+                              @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="">Nhà sản xuất</label>
+                            <input type="text" class="form-control"
+                              name="producer" placeholder="Nhập nhà sản xuất thuốc..." value="{{old('producer') ?? $detail->producer}}">
+                              @error('producer')
+                                  <span style="color: red">{{$message}}</span>
+                              @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="">Giá bán</label>
+                            <input type="number" class="form-control"
+                              name="price" pattern="[-+]?[0-9]" min="500"  placeholder="Nhập giá bán thuốc..." value="{{old('price') ?? $detail->price}}">
+                              @error('price')
+                                  <span style="color: red">{{$message}}</span>
+                              @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <!-- select -->
+                        <div class="form-group">
+                          <label>Đơn vị thuốc</label>
+                          <select class="form-control" name="unit">
+                            <option selected disabled>Chọn đơn vị thuốc</option>
+                            <option value="Hộp" {{old('unit')=='Hộp' || $detail->unit=='Hộp' ? 'selected':false}}>Hộp</option>
+                            <option value="Lọ" {{old('unit')=='Lọ' || $detail->unit=='Lọ' ? 'selected':false}}>Lọ</option>
+                            <option value="Vỉ" {{old('unit')=='Vỉ' || $detail->unit=='Vỉ' ? 'selected':false}}>Vỉ</option>
+                          </select>
+                        </div>
+                    </div>
                 </div>
               <!-- /.card-body -->
 
               <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
-                <a href="{{route('drug_groups.index')}}" class="btn btn-warning">Back</a>
+                <a href="{{route('drugs.index')}}" class="btn btn-warning">Back</a>
                 @csrf
               </div>
             </form>
@@ -76,7 +133,7 @@
           <!-- /.card -->
         </div>
         <!--/.col (right) -->
-        <div class="col-md-3"></div>
+        <div class="col-md-1"></div>
       </div>
       <!-- /.row -->
     </div><!-- /.container-fluid -->

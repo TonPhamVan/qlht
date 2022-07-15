@@ -5,33 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Drug;
 use App\Models\DrugGroup;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class DrugController extends Controller
 {
+    private $drugs;
+    public function __construct()
+    {
+        $this->drugs = new Drug();
+    }
     public function index(Request $request) {
         $title = 'Thông tin thuốc';
-        $drugGroup = DB::table('drugs')
-        ->select('drugs.*','drug_groups.name_drug_group')
+        $drugGroup = Drug::select('drugs.*','drug_groups.name_drug_group')
         ->leftJoin('drug_groups', 'drugs.id_drug_group','=','drug_groups.id')
         ->where('drug_groups.deleted_at',null)
         ->where('drugs.deleted_at',null);
-        // $drugGroupName = DB::table('drugs')
-        // ->select('drugs.*','drug_groups.name_drug_group')
-        // ->rightJoin('drug_groups', 'drugs.id_drug_group','=','drug_groups.id')
-        // ->union($drugGroup)
-        // ->where('drugs.id','!=','drugs.id_drug_group')
-        // ->where('drug_groups.deleted_at',null)
-        // ->where('drugs.deleted_at',null)
-        // ->get();
-        // dd($drugGroupName)
         if(!empty($search = $request->search)){
-            // $list = Drug::orderBy('created_at','DESC')
-            // ->where('drug_name','like','%'.$search.'%')
-            // ->where('deleted_at',null)
-            // ->paginate(5);
-            $list = DB::table('drugs')
-                ->select('drugs.*','drug_groups.name_drug_group')
+            $list = Drug::select('drugs.*','drug_groups.name_drug_group')
                 ->rightJoin('drug_groups', 'drugs.id_drug_group','=','drug_groups.id')
                 ->union($drugGroup)
                 ->where('drugs.id','!=','drugs.id_drug_group')
@@ -39,13 +28,9 @@ class DrugController extends Controller
                 ->where('drug_groups.deleted_at',null)
                 ->where('drugs.deleted_at',null)
                 ->paginate(5);
+                // dd($list);
         } else{
-            $list = Drug::orderBy('created_at','DESC')
-            ->where('deleted_at',null)
-            ->paginate(5);
-            // $list = $drugGroupName;
-            $list = DB::table('drugs')
-                ->select('drugs.*','drug_groups.name_drug_group')
+            $list = Drug::select('drugs.*','drug_groups.name_drug_group')
                 ->rightJoin('drug_groups', 'drugs.id_drug_group','=','drug_groups.id')
                 ->union($drugGroup)
                 ->where('drugs.id','!=','drugs.id_drug_group')
@@ -60,14 +45,8 @@ class DrugController extends Controller
     // thêm thông tin
     public function add() {
         $title = 'Thêm thông tin thuốc';
-        $drugGroup = DB::table('drug_groups')
-        ->select('drug_groups.*','drugs.id_drug_group')
-        ->leftJoin('drugs', 'drugs.id_drug_group','=','drug_groups.id')
-        ->where('drug_groups.deleted_at',null)
-        ->where('drugs.deleted_at',null)
-        ->get();
-        dd($drugGroup);
-        return view('clients.drugs.add',compact('title','drugGroup'));
+        $drugGroupName = DrugGroup::where('deleted_at',null)->get();
+        return view('clients.drugs.add',compact('title','drugGroupName'));
     }
     public function postAdd(Request $request) {
         $request->validate([
@@ -100,16 +79,25 @@ class DrugController extends Controller
     //sửa thông tin
     public function getEdit(Request $request, $id=0) {
         $title = "Sửa thông tin thuốc";
+        $drugGroup = Drug::select('drugs.*','drug_groups.name_drug_group')
+        ->leftJoin('drug_groups', 'drugs.id_drug_group','=','drug_groups.id');
+        $drugGroupName = DrugGroup::where('deleted_at',null)->get();
         if(!empty($id)){
-            $detail = Drug::where('id',$id)->get();
+            $detail = Drug::select('drugs.*','drug_groups.name_drug_group')
+            ->rightJoin('drug_groups', 'drugs.id_drug_group','=','drug_groups.id')
+            ->union($drugGroup)
+            ->where('drugs.id','!=','drugs.id_drug_group')
+            ->where('drugs.id',$id)
+            ->get();
             if(!empty($detail[0])){
                 $request->session()->put('id',$id);
                 $detail = $detail[0];
             }
+            // dd($detail);
         } else {
             return redirect()->route('drugs.index')->with('msg','Thông tin thuốc không tồn tại');
         }
-        return view('clients.drugs.edit',compact('title','detail'));
+        return view('clients.drugs.edit',compact('title','detail','drugGroupName'));
 
     }
     public function postEdit(Request $request) {
@@ -119,13 +107,22 @@ class DrugController extends Controller
         }
         $request->validate([
             'drug_name' => 'required',
+            'price' => 'required'
 
         ],[
             'drug_name.required' => "Tên thuốc bắt buộc phải nhập",
+            'price.required' => "giá bán bắt buộc phải nhập",
+
         ]);
         $dataUpdate = [
             'drug_name'=>$request->drug_name,
-            'note'=>$request->note,
+            'id_drug_group'=>$request->id_drug_group,
+            'ingredient'=>$request->ingredient,
+            'uses'=>$request->uses,
+            'producer'=>$request->producer,
+            'quantity'=>$request->quantity,
+            'price'=>$request->price,
+            'unit'=>$request->unit,
             'updated_at'=>date('Y-m-d H:i:s')
         ];
         Drug::where('id',$id)->update($dataUpdate);
@@ -156,15 +153,25 @@ class DrugController extends Controller
     //danh sách đã xóa
     public function trash(Request $request){
         $title = 'Thông tin thuốc đã xóa';
+        $drugGroup = Drug::onlyTrashed()
+        ->select('drugs.*','drug_groups.name_drug_group')
+        ->leftJoin('drug_groups', 'drugs.id_drug_group','=','drug_groups.id');
         if(!empty($search = $request->search)){
             $listdelete = Drug::onlyTrashed()
-                    ->orderBy('created_at','DESC')
-                    ->where('drug_name','like','%'.$search.'%')
-                    ->paginate(5);
+                ->select('drugs.*','drug_groups.name_drug_group')
+                ->rightJoin('drug_groups', 'drugs.id_drug_group','=','drug_groups.id')
+                ->union($drugGroup)
+                ->where('drugs.id','!=','drugs.id_drug_group')
+                ->where('drugs.drug_name','like','%'.$search.'%')
+                ->paginate(5);
         } else{
             $listdelete = Drug::onlyTrashed()
-                    ->orderBy('created_at','DESC')
-                    ->paginate(5);
+                ->select('drugs.*','drug_groups.name_drug_group')
+                ->rightJoin('drug_groups', 'drugs.id_drug_group','=','drug_groups.id')
+                ->union($drugGroup)
+                ->where('drugs.id','!=','drugs.id_drug_group')
+                ->paginate(5);
+                // dd($listdelete);
         }
         return view('clients.drugs.listdelete',compact('title','listdelete'))->with('i',(request()->input('page',1)-1)*1);
     }

@@ -67,8 +67,8 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="">Số điện thoại</label>
-                            <input type="text" class="form-control"
-                              name="phone" required placeholder="Nhập số điện thoại..." value="{{old('phone') ?? $detail->phone}}">
+                            <input type="tel" class="form-control"
+                              name="phone"  required placeholder="Nhập số điện thoại..." value="{{old('phone') ?? $detail->phone}}">
                               @error('phone')
                                   <span style="color: red">{{$message}}</span>
                               @enderror

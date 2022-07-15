@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('listdelete-drug_group')
+@section('listdelete-drug')
 <section class="content-header">
     {{-- <div class="container-fluid">
       <div class="row mb-2">
@@ -52,28 +52,42 @@
                       <div class="table-responsive p-0">
                         <table class="table  table-hover text-nowrap">
                             <thead>
-                              <tr>
-                                <th style="width: 10px">STT</th>
-                                <th>Tên nhóm thuốc</th>
-                                <th>Ghi chú</th>
-                                <th width = "5%">Khôi phục</th>
-                                <th width = "5%">Xóa</th>
-                              </tr>
+                                <tr>
+                                    <th style="width: 10px">STT</th>
+                                    <th>Tên thuốc</th>
+                                    <th>Tên nhóm thuốc</th>
+                                    <th>Giá bán</th>
+                                    <th>Đơn vị thuốc</th>
+                                    <th>Thành phần</th>
+                                    <th>Công dụng</th>
+                                    <th>Nhà sản xuất</th>
+                                    <th>Số lượng</th>
+                                    <th>Ngày tạo</th>
+                                    <th width = "5%">Khôi phục</th>
+                                    <th width = "5%">Xóa</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 @if (!empty($listdelete))
                                     @foreach ($listdelete as $key => $item)
                                         <tr>
                                             <td>{{$key+1}}</td>
+                                            <td>{{$item->drug_name}}</td>
                                             <td>{{$item->name_drug_group}}</td>
-                                            <td>{{$item->note}}</td>
+                                            <td>{{$item->price}}</td>
+                                            <td>{{$item->unit}}</td>
+                                            <td>{{$item->ingredient}}</td>
+                                            <td>{{$item->uses}}</td>
+                                            <td>{{$item->producer}}</td>
+                                            <td>{{$item->quantity}}</td>
+                                            <td>{{$item->created_at}}</td>
                                             <td>
-                                                <a href="{{route('drug_groups.untrash',['id'=>$item->id])}}" class ="btn btn-warning btn-md">
+                                                <a href="{{route('drugs.untrash',['id'=>$item->id])}}" class ="btn btn-warning btn-md">
                                                     <i class="fa-solid fa-trash-arrow-up"></i>
                                                 </a>
                                             </td>
                                             <td>
-                                                <a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{route('drug_groups.forceDelete',['id'=>$item->id])}}" class ="btn btn-danger btn-md">
+                                                <a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{route('drugs.forceDelete',['id'=>$item->id])}}" class ="btn btn-danger btn-md">
                                                     <i class="fa-solid fa-trash-can"></i>
                                                 </a>
                                             </td>
@@ -96,7 +110,7 @@
                             {{$listdelete->appends(request()->all())->links()}}
                         </div>
                         <div class="col-md-8">
-                            <a href="{{route('drug_groups.index')}}" style="margin: 0 0 5px 0" class="btn btn-success float-right">Back</a>
+                            <a href="{{route('drugs.index')}}" style="margin: 0 0 5px 0" class="btn btn-success float-right">Back</a>
                         </div>
                       </div>
                     </div>
