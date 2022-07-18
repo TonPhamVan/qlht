@@ -53,13 +53,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="{{route('users.index')}}" class="nav-link">
                     <i class="fa-solid fa-list nav-icon"></i>
                   <p>Danh sách tài khoản</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="{{route('users.add')}}" class="nav-link">
                     <i class="fa-solid fa-circle-plus nav-icon"></i>
                   <p>Thêm tài khoản</p>
                 </a>

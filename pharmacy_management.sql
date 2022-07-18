@@ -1,9 +1,9 @@
- -- phpMyAdmin SQL Dump
+-- phpMyAdmin SQL Dump
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 15, 2022 at 08:41 AM
+-- Generation Time: Jul 18, 2022 at 12:47 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.23
 
@@ -157,7 +157,6 @@ CREATE TABLE `export_details` (
 
 -- --------------------------------------------------------
 
-
 --
 -- Table structure for table `import_details`
 --
@@ -214,6 +213,13 @@ CREATE TABLE `suppliers` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `suppliers`
+--
+
+INSERT INTO `suppliers` (`id`, `supplier_name`, `address`, `phone`, `email`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(2, 'tjuhjgj', 'Hà Nội', '0886694511', 'victi66g8@gmail.com', '2022-07-15 08:53:22', NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -232,6 +238,15 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `permission_id`, `user_email`, `password`, `fullname`, `address`, `phone`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'admin@gmail.com', '$2y$10$dYh/X4NPubK7hyXJewvyQ.f.SbpvLj48U92vE2zf1RyRXRBzWT8U6', 'Phạm Tôn', 'Hà Nội', '0887784041', '2022-07-18 02:32:49', NULL, NULL),
+(2, 2, 'nv1@gmail.com', '$2y$10$/qA/wlEV7y3uSriuq.HepORnQCgJ1FjqYKQDT68UMJPCS9dW.FCBO', 'Hoang anh', 'Cổ Nhuế, Bắc Từ Liêm, Hà Nội', '0886694511', '2022-07-18 02:41:20', NULL, NULL),
+(3, 2, 'nv02@gmail.com', '$2y$10$l/ZRkU23m2hOpneU0W0Vx.cPrRW4ec0I9UvS0wMa//Gx3AfkGxH4.', 'Hoang toan', 'Hà Nội', '0886694532', '2022-07-18 02:42:26', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -352,13 +367,13 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `suppliers`
 --
 ALTER TABLE `suppliers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã nhà cung cấp';
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã nhà cung cấp', AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã tài khoản';
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã tài khoản', AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -374,28 +389,28 @@ ALTER TABLE `drugs`
 -- Constraints for table `export_bills`
 --
 ALTER TABLE `export_bills`
-  ADD CONSTRAINT `export_bills_ibfk_1` FOREIGN KEY (`export_detail_id`) REFERENCES `export_details` (`id`),
-  ADD CONSTRAINT `export_bills_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
-  ADD CONSTRAINT `export_bills_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `export_bills_ibfk_1` FOREIGN KEY (`export_detail_id`) REFERENCES `export_details` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `export_bills_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `export_bills_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `export_details`
 --
 ALTER TABLE `export_details`
-  ADD CONSTRAINT `export_details_ibfk_1` FOREIGN KEY (`drug_id`) REFERENCES `drugs` (`id`);
+  ADD CONSTRAINT `export_details_ibfk_1` FOREIGN KEY (`drug_id`) REFERENCES `drugs` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `import_details`
 --
 ALTER TABLE `import_details`
-  ADD CONSTRAINT `import_details_ibfk_1` FOREIGN KEY (`drug_id`) REFERENCES `drugs` (`id`),
-  ADD CONSTRAINT `import_details_ibfk_2` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`);
+  ADD CONSTRAINT `import_details_ibfk_1` FOREIGN KEY (`drug_id`) REFERENCES `drugs` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `import_details_ibfk_2` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `users`
 --
 ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`);
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

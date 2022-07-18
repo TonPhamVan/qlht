@@ -51,6 +51,12 @@
     @yield('list-import_detail')
     @yield('listdelete-import_detail')
     @yield('edit-import_detail')
+
+        {{-- user --}}
+        @yield('add-user')
+        @yield('list-user')
+        @yield('listdelete-user')
+        @yield('edit-user')
   </div>
   <!-- /.content-wrapper -->
 

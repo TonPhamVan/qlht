@@ -1,9 +1,9 @@
--- phpMyAdmin SQL Dump
+ -- phpMyAdmin SQL Dump
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 15, 2022 at 12:33 PM
+-- Generation Time: Jul 15, 2022 at 08:41 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.23
 
@@ -157,6 +157,7 @@ CREATE TABLE `export_details` (
 
 -- --------------------------------------------------------
 
+
 --
 -- Table structure for table `import_details`
 --
@@ -212,13 +213,6 @@ CREATE TABLE `suppliers` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `suppliers`
---
-
-INSERT INTO `suppliers` (`id`, `supplier_name`, `address`, `phone`, `email`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(2, 'tjuhjgj', 'Hà Nội', '0886694511', 'victi66g8@gmail.com', '2022-07-15 08:53:22', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -358,7 +352,7 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `suppliers`
 --
 ALTER TABLE `suppliers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã nhà cung cấp', AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã nhà cung cấp';
 
 --
 -- AUTO_INCREMENT for table `users`
