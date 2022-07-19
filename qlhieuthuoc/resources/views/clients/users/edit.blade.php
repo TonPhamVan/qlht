@@ -40,35 +40,44 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form action="{{route('customers.postEdit')}}" method="POST">
+            <form action="{{route('users.postEdit')}}" method="POST">
               <div class="card-body">
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="">Tên khách hàng</label>
-                            <input type="text" class="form-control"
-                              name="customer_name" required placeholder="Nhập tên khách hàng..." value="{{old('customer_name') ?? $detail->customer_name}}">
-                              @error('customer_name')
+                            <label for="">Email tài khoản *</label>
+                            <input type="email" class="form-control"
+                              name="user_email" required placeholder="Nhập tên tài khoản..." value="{{old('user_email') ?? $detail->user_email}}">
+                              @error('user_email')
                                   <span style="color: red">{{$message}}</span>
                               @enderror
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <!-- select -->
                         <div class="form-group">
-                          <label>Giới tính</label>
-                          <select class="form-control" name="gender">
-                            <option selected disabled>Chọn giới tính</option>
-                            <option value="Nam" {{old('gender')=='Nam' || $detail->gender=='Nam' ? 'selected':false}}>Nam</option>
-                            <option value="Nữ" {{old('gender')=='Nam' || $detail->gender=='Nữ' ? 'selected':false}}>Nữ</option>
-                          </select>
+                            <label for="">Mật khẩu *</label>
+                            <input type="text" class="form-control"
+                              name="password" required placeholder="Nhập mật khẩu..." value="{{old('password') ?? $detail->password}}">
+                              @error('password')
+                                  <span style="color: red">{{$message}}</span>
+                              @enderror
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="">Số điện thoại</label>
+                            <label for="">Họ và tên *</label>
+                            <input type="text" class="form-control"
+                              name="fullname" required placeholder="Nhập mật khẩu..." value="{{old('fullname') ?? $detail->fullname}}">
+                              @error('fullname')
+                                  <span style="color: red">{{$message}}</span>
+                              @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="">Số điện thoại *</label>
                             <input type="tel" class="form-control"
-                              name="phone"  required placeholder="Nhập số điện thoại..." value="{{old('phone') ?? $detail->phone}}">
+                              name="phone" required placeholder="Nhập số điện thoại..." value="{{old('phone') ?? $detail->phone}}">
                               @error('phone')
                                   <span style="color: red">{{$message}}</span>
                               @enderror
@@ -84,12 +93,26 @@
                               @enderror
                         </div>
                     </div>
+                    <div class="col-sm-6">
+                        <!-- select -->
+                        <div class="form-group">
+                          <label>Quyền hạn *</label>
+                          <select class="form-control" name="permission_id">
+                            <option disabled>Chọn quyền hạn</option>
+                            @if (!empty($permission))
+                                @foreach ($permission as $item)
+                                <option value="{{$item->id}}" {{$detail->permission_id==$item->id ? 'selected' : ''}}>{{$item->permission_name}}</option>
+                                @endforeach
+                            @endif
+                          </select>
+                        </div>
+                    </div>
                 </div>
               <!-- /.card-body -->
 
               <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
-                <a href="{{route('customers.index')}}" class="btn btn-warning">Back</a>
+                <a href="{{route('users.index')}}" class="btn btn-warning">Back</a>
                 @csrf
               </div>
             </form>

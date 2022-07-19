@@ -56,7 +56,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="">Mật khẩu *</label>
-                            <input type="password" class="form-control"
+                            <input type="text" class="form-control"
                               name="password" required placeholder="Nhập mật khẩu..." value="{{old('password')}}">
                               @error('password')
                                   <span style="color: red">{{$message}}</span>

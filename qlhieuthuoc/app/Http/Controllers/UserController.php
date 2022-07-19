@@ -17,15 +17,27 @@ class UserController extends Controller
     //danh sách tài khoản
     public function index(Request $request) {
         $title = 'Thông tin tài khoản';
+        $permissionGroup = User::select('users.*','permissions.permission_name')
+        ->leftJoin('permissions', 'users.permission_id','=','permissions.id')
+        ->where('users.deleted_at',null)
+        ->where('permissions.deleted_at',null);
         if(!empty($search = $request->search)){
-            $list = User::orderBy('created_at','DESC')
-            ->where('fullname','like','%'.$search.'%')
-            ->where('deleted_at',null)
-            ->paginate(5);
+            $list = User::select('users.*','permissions.permission_name')
+                ->rightJoin('permissions', 'users.permission_id','=','permissions.id')
+                ->union($permissionGroup)
+                ->where('users.id','!=','users.permission_id')
+                ->where('fullname','like','%'.$search.'%')
+                ->where('permissions.deleted_at',null)
+                ->where('users.deleted_at',null)
+                ->paginate(5);
         } else{
-            $list = User::orderBy('created_at','DESC')
-            ->where('deleted_at',null)
-            ->paginate(5);
+            $list = User::select('users.*','permissions.permission_name')
+                ->rightJoin('permissions', 'users.permission_id','=','permissions.id')
+                ->union($permissionGroup)
+                ->where('users.id','!=','users.permission_id')
+                ->where('permissions.deleted_at',null)
+                ->where('users.deleted_at',null)
+                ->paginate(5);
         }
         return view('clients.users.list',compact('title','list'))->with('i',(request()->input('page',1)-1)*1);
 
@@ -40,7 +52,7 @@ class UserController extends Controller
         $request->validate([
             'user_email' => 'required|unique:users|email',
             'password' => 'required|min:8',
-            'phone' => 'required|digits:10|unique:Users|numeric',
+            'phone' => 'required|digits:10|unique:users|numeric',
 
         ],[
             'user_email.required' => "Tài khoản email bắt buộc phải nhập",
@@ -71,16 +83,28 @@ class UserController extends Controller
     //sửa thông tin
     public function getEdit(Request $request, $id=0) {
         $title = "Sửa thông tin tài khoản";
+        $permission = Permission::where('deleted_at',null)->get();
+        $permissionGroup = User::select('users.*','permissions.permission_name')
+        ->leftJoin('permissions', 'users.permission_id','=','permissions.id');
+
         if(!empty($id)){
-            $detail = User::where('id',$id)->get();
+            // $detail = User::where('id',$id)->get();
+            $detail = User::select('users.*','permissions.permission_name')
+                ->rightJoin('permissions', 'users.permission_id','=','permissions.id')
+                ->union($permissionGroup)
+                ->where('users.id','!=','users.permission_id')
+                ->where('users.id',$id)
+                ->get();
+
             if(!empty($detail[0])){
                 $request->session()->put('id',$id);
                 $detail = $detail[0];
             }
+            // dd($detail);
         } else {
             return redirect()->route('users.index')->with('msg','Thông tin tài khoản không tồn tại');
         }
-        return view('clients.users.edit',compact('title','detail'));
+        return view('clients.users.edit',compact('title','detail','permission'));
 
     }
     public function postEdit(Request $request) {
@@ -89,21 +113,27 @@ class UserController extends Controller
             return back()->with('msg','Liên kết không tồn tại');
         }
         $request->validate([
-            'User_name' => 'required',
+            'user_email' => 'required|email',
+            'password' => 'required|min:8',
             'phone' => 'required|digits:10|numeric',
 
         ],[
-            'User_name.required' => "Tên tài khoản bắt buộc phải nhập",
+            'user_email.required' => "Tài khoản email bắt buộc phải nhập",
+            'user_email.email' => "Tài khoản email không đúng định dạng",
+            'password.required' => "Mật khẩu bắt buộc phải nhập",
+            'password.min' => "Mật khẩu phải có 8 kí tự trở lên",
             'phone.required' => 'Số điện thoại bắt buộc phải nhập',
             'phone.size' => 'Số điện thoại phải có :digits số',
-            'phone.numeric' => 'Số điện thoại phải là dạng số',
+            'phone.numeric' => "Số điện thoại phải là dạng số",
 
         ]);
         $dataUpdate = [
-            'User_name'=>$request->User_name,
-            'gender'=>$request->gender,
+            'user_email'=>$request->user_email,
+            'password'=>Hash::make($request->password),
+            'fullname'=>$request->fullname,
             'address'=>$request->address,
             'phone'=>$request->phone,
+            'permission_id'=>$request->permission_id,
             'updated_at'=>date('Y-m-d H:i:s')
         ];
         User::where('id',$id)
@@ -111,7 +141,7 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('msg','Cập nhật thông tin tài khoản thành công');
 
     }
-    //xóa mềm
+    //xóa
     public function delete($id=0) {
         if(!empty($id)){
             $detail = User::where('id',$id)->get();
@@ -131,46 +161,4 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('msg',$msg);
     }
 
-    //danh sách tài khoản đã xóa
-    public function trash(Request $request){
-        $title = 'Thông tin tài khoản đã xóa';
-        if(!empty($search = $request->search)){
-            $listdelete = User::onlyTrashed()
-                    ->orderBy('created_at','DESC')
-                    ->where('User_name','like','%'.$search.'%')
-                    ->paginate(5);
-        } else{
-            $listdelete = User::onlyTrashed()
-                    ->orderBy('created_at','DESC')
-                    ->paginate(5);
-        }
-        return view('clients.users.listdelete',compact('title','listdelete'))->with('i',(request()->input('page',1)-1)*1);
-    }
-
-    //phục hồi
-    public function untrash($id=0) {
-        $deleteStatus = User::withTrashed()
-        ->where('id',$id);
-        $deleteStatus->restore();
-        if($deleteStatus){
-            $msg = 'Phục hồi thông tin tài khoản thành công';
-        } else {
-            $msg = 'Bạn không thể phục hồi thông tin tài khoản lúc này. Vui lòng thử lại';
-        }
-
-        return redirect()->route('users.trash')->with('msg',$msg);
-    }
-    //xóa hẳn
-    public function forceDelete($id=0) {
-        $deleteStatus = User::withTrashed()
-        ->where('id',$id);
-        $deleteStatus->forceDelete();
-        if($deleteStatus){
-            $msg = 'Xóa thông tin tài khoản thành công';
-        } else {
-            $msg = 'Bạn không thể xóa thông tin tài khoản lúc này. Vui lòng thử lại';
-        }
-
-        return redirect()->route('users.trash')->with('msg',$msg);
-    }
 }

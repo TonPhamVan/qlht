@@ -77,14 +77,14 @@
                                             <td>{{$item->unit}}</td>
                                             <td>{{$item->created_at}}</td>
                                             <td>
-                                                <a href="{{route('import_details.getEdit',['id'=>$item->id])}}" class ="btn btn-warning btn-md">
+                                                {{-- <a href="{{route('import_details.getEdit',['id'=>$item->id])}}" class ="btn btn-warning btn-md">
                                                     <i class="fa-solid fa-pen-to-square"></i>
-                                                </a>
+                                                </a> --}}
                                             </td>
                                             <td>
-                                                <a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{route('import_details.delete',['id'=>$item->id])}}" class ="btn btn-danger btn-md">
+                                                {{-- <a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{route('import_details.delete',['id'=>$item->id])}}" class ="btn btn-danger btn-md">
                                                     <i class="fa-solid fa-trash-can"></i>
-                                                </a>
+                                                </a> --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -101,12 +101,9 @@
                     <!-- /.card-body -->
                     <div class="card-footer clearfix">
                       <div class="row">
-                        <div class="col-md-4">
+                        {{-- <div class="col-md-4">
                             {{$list->appends(request()->all())->links()}}
-                        </div>
-                        <div class="col-md-8">
-                            <a href="{{route('import_details.trash')}}" class="btn btn-outline-danger float-right">Recycle Bin</a>
-                        </div>
+                        </div> --}}
                       </div>
                     </div>
 

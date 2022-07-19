@@ -61,67 +61,67 @@ Route::middleware('auth')->group(function () {
     Route::prefix('drug_groups')->name('drug_groups.')->group(function() {
         Route::get('/',[DrugGroupController::class,'index'])->name('index');
 
-        Route::get('/add',[DrugGroupController::class,'add'])->name('add');
+        Route::middleware('can:isAdmin')->get('/add',[DrugGroupController::class,'add'])->name('add');
 
-        Route::post('/add',[DrugGroupController::class,'postAdd'])->name('postAdd');
+        Route::middleware('can:isAdmin')->post('/add',[DrugGroupController::class,'postAdd'])->name('postAdd');
 
-        Route::get('/edit/{id}',[DrugGroupController::class,'getEdit'])->name('getEdit');
+        Route::middleware('can:isAdmin')->get('/edit/{id}',[DrugGroupController::class,'getEdit'])->name('getEdit');
 
-        Route::post('/update',[DrugGroupController::class,'postEdit'])->name('postEdit');
+        Route::middleware('can:isAdmin')->post('/update',[DrugGroupController::class,'postEdit'])->name('postEdit');
 
-        Route::get('/delete/{id}',[DrugGroupController::class,'delete'])->name('delete');
+        Route::middleware('can:isAdmin')->get('/delete/{id}',[DrugGroupController::class,'delete'])->name('delete');
 
-        Route::get('/trash',[DrugGroupController::class,'trash'])->name('trash');
+        Route::middleware('can:isAdmin')->get('/trash',[DrugGroupController::class,'trash'])->name('trash');
 
-        Route::get('/untrash/{id}',[DrugGroupController::class,'untrash'])->name('untrash');
+        Route::middleware('can:isAdmin')->get('/untrash/{id}',[DrugGroupController::class,'untrash'])->name('untrash');
 
-        Route::get('/forceDelete/{id}',[DrugGroupController::class,'forceDelete'])->name('forceDelete');
+        Route::middleware('can:isAdmin')->get('/forceDelete/{id}',[DrugGroupController::class,'forceDelete'])->name('forceDelete');
 
     });
 
     Route::prefix('drugs')->name('drugs.')->group(function() {
         Route::get('/',[DrugController::class,'index'])->name('index');
 
-        Route::get('/add',[DrugController::class,'add'])->name('add');
+        Route::middleware('can:isAdmin')->get('/add',[DrugController::class,'add'])->name('add');
 
-        Route::post('/add',[DrugController::class,'postAdd'])->name('postAdd');
+        Route::middleware('can:isAdmin')->post('/add',[DrugController::class,'postAdd'])->name('postAdd');
 
-        Route::get('/edit/{id}',[DrugController::class,'getEdit'])->name('getEdit');
+        Route::middleware('can:isAdmin')->get('/edit/{id}',[DrugController::class,'getEdit'])->name('getEdit');
 
-        Route::post('/update',[DrugController::class,'postEdit'])->name('postEdit');
+        Route::middleware('can:isAdmin')->post('/update',[DrugController::class,'postEdit'])->name('postEdit');
 
-        Route::get('/delete/{id}',[DrugController::class,'delete'])->name('delete');
+        Route::middleware('can:isAdmin')->get('/delete/{id}',[DrugController::class,'delete'])->name('delete');
 
-        Route::get('/trash',[DrugController::class,'trash'])->name('trash');
+        Route::middleware('can:isAdmin')->get('/trash',[DrugController::class,'trash'])->name('trash');
 
-        Route::get('/untrash/{id}',[DrugController::class,'untrash'])->name('untrash');
+        Route::middleware('can:isAdmin')->get('/untrash/{id}',[DrugController::class,'untrash'])->name('untrash');
 
-        Route::get('/forceDelete/{id}',[DrugController::class,'forceDelete'])->name('forceDelete');
+        Route::middleware('can:isAdmin')->get('/forceDelete/{id}',[DrugController::class,'forceDelete'])->name('forceDelete');
 
     });
 
     Route::prefix('suppliers')->name('suppliers.')->group(function() {
         Route::get('/',[SupplierController::class,'index'])->name('index');
 
-        Route::get('/add',[SupplierController::class,'add'])->name('add');
+        Route::middleware('can:isAdmin')->get('/add',[SupplierController::class,'add'])->name('add');
 
-        Route::post('/add',[SupplierController::class,'postAdd'])->name('postAdd');
+        Route::middleware('can:isAdmin')->post('/add',[SupplierController::class,'postAdd'])->name('postAdd');
 
-        Route::get('/edit/{id}',[SupplierController::class,'getEdit'])->name('getEdit');
+        Route::middleware('can:isAdmin')->get('/edit/{id}',[SupplierController::class,'getEdit'])->name('getEdit');
 
-        Route::post('/update',[SupplierController::class,'postEdit'])->name('postEdit');
+        Route::middleware('can:isAdmin')->post('/update',[SupplierController::class,'postEdit'])->name('postEdit');
 
-        Route::get('/delete/{id}',[SupplierController::class,'delete'])->name('delete');
+        Route::middleware('can:isAdmin')->get('/delete/{id}',[SupplierController::class,'delete'])->name('delete');
 
-        Route::get('/trash',[SupplierController::class,'trash'])->name('trash');
+        Route::middleware('can:isAdmin')->get('/trash',[SupplierController::class,'trash'])->name('trash');
 
-        Route::get('/untrash/{id}',[SupplierController::class,'untrash'])->name('untrash');
+        Route::middleware('can:isAdmin')->get('/untrash/{id}',[SupplierController::class,'untrash'])->name('untrash');
 
-        Route::get('/forceDelete/{id}',[SupplierController::class,'forceDelete'])->name('forceDelete');
+        Route::middleware('can:isAdmin')->get('/forceDelete/{id}',[SupplierController::class,'forceDelete'])->name('forceDelete');
 
     });
 
-    Route::prefix('import_details')->name('import_details.')->group(function() {
+    Route::prefix('import_details')->middleware('can:isAdmin')->name('import_details.')->group(function() {
         Route::get('/',[ImportDetailController::class,'index'])->name('index');
 
         Route::get('/add',[ImportDetailController::class,'add'])->name('add');
@@ -142,7 +142,7 @@ Route::middleware('auth')->group(function () {
 
     });
 
-    Route::prefix('users')->name('users.')->group(function() {
+    Route::prefix('users')->middleware('can:isAdmin')->name('users.')->group(function() {
         Route::get('/',[UserController::class,'index'])->name('index');
 
         Route::get('/add',[UserController::class,'add'])->name('add');
@@ -154,12 +154,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/update',[UserController::class,'postEdit'])->name('postEdit');
 
         Route::get('/delete/{id}',[UserController::class,'delete'])->name('delete');
-
-        Route::get('/trash',[UserController::class,'trash'])->name('trash');
-
-        Route::get('/untrash/{id}',[UserController::class,'untrash'])->name('untrash');
-
-        Route::get('/forceDelete/{id}',[UserController::class,'forceDelete'])->name('forceDelete');
 
     });
 });

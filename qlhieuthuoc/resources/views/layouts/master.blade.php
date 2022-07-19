@@ -22,6 +22,8 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+
+    @yield('403')
     <!-- Content Header (Page header) -->
     @yield('add-customer')
     @yield('list-customer')

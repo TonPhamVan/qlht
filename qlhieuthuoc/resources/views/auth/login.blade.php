@@ -29,6 +29,11 @@
             <form action="" method="post">
                 @csrf
               <div class="input-group mb-3">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                      <i class="fa-solid fa-user"></i>
+                    </div>
+                  </div>
                 <input id="user_email" type="user_email" class="form-control @error('user_email') is-invalid @enderror" name="user_email" value="{{ old('user_email') }}" required autocomplete="user_email" autofocus>
 
                 @error('user_email')
@@ -37,13 +42,15 @@
                     </span>
                 @enderror
 
-                <div class="input-group-append">
-                  <div class="input-group-text">
-                    <i class="fa-solid fa-user"></i>
-                  </div>
-                </div>
+
               </div>
               <div class="input-group mb-3">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+
+                      <span class="fas fa-lock"></span>
+                    </div>
+                  </div>
                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
 
@@ -53,11 +60,7 @@
                     </span>
                 @enderror
 
-                <div class="input-group-append">
-                  <div class="input-group-text">
-                    <span class="fas fa-lock"></span>
-                  </div>
-                </div>
+
               </div>
               <div class="row">
                 <div class="col-6">
@@ -75,23 +78,6 @@
                 <!-- /.col -->
               </div>
             </form>
-
-            {{-- <div class="social-auth-links text-center mt-2 mb-3">
-              <a href="#" class="btn btn-block btn-primary">
-                <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-              </a>
-              <a href="#" class="btn btn-block btn-danger">
-                <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-              </a>
-            </div> --}}
-            <!-- /.social-auth-links -->
-
-            {{-- <p class="mb-1">
-              <a href="forgot-password.html">I forgot my password</a>
-            </p>
-            <p class="mb-0">
-              <a href="register.html" class="text-center">Register a new membership</a>
-            </p> --}}
           </div>
           <!-- /.card-body -->
         </div>

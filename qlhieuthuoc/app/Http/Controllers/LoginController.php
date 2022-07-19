@@ -44,7 +44,10 @@ class LoginController extends Controller
         if (Auth::attempt([
             'user_email' => $request->user_email,
             'password'=>$request->password,
+            'deleted_at'=>null,
         ], $request->remember)){
+            $request->session()->regenerate();
+
             return redirect()->route('master');
         }
 
@@ -52,8 +55,13 @@ class LoginController extends Controller
         return redirect()->back()->with('msg','Email hoặc mật khẩu không chính xác');;
     }
 
-    public function logout(){
+    public function logout(Request $request){
         Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
         return redirect()->route('login');
     }
 }

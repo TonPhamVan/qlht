@@ -14,8 +14,7 @@
         </div>
         <div class="info">
           <a href="#" class="d-block">
-            {{-- {{ Auth::user()->name }} --}}
-            tôn
+            {{ Auth::user()->fullname }}
         </a>
         </div>
       </div>
@@ -43,7 +42,7 @@
                   </p>
                 </a>
               </li>
-          <li class="nav-item menu-open">
+          <li class="nav-item">
             <a href="#" class="nav-link">
                 <i class="fa-solid fa-users nav-icon"></i>
               <p>

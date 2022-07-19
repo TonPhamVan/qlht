@@ -58,10 +58,10 @@
                         <div class="form-group">
                           <label>Nhóm thuốc</label>
                           <select class="form-control" name="id_drug_group">
-                            <option selected disabled>Chọn tên nhóm thuốc</option>
+                            <option disabled>Chọn tên nhóm thuốc</option>
                             @if (!empty($drugGroupName))
                                 @foreach ($drugGroupName as $item)
-                                    <option value="{{$item->id}}">{{$item->name_drug_group}}</option>
+                                    <option value="{{$item->id}}" {{$detail->id_drug_group==$item->id ? 'selected' : ''}}>{{$item->name_drug_group}}</option>
                                 @endforeach
                             @endif
                           </select>

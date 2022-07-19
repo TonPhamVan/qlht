@@ -56,7 +56,6 @@
                               <tr>
                                 <th style="width: 10px">STT</th>
                                 <th>Email đăng nhập</th>
-                                <th>Mật khẩu</th>
                                 <th>Họ tên</th>
                                 <th>Địa chỉ</th>
                                 <th>Số điện thoại</th>
@@ -72,7 +71,6 @@
                                         <tr>
                                             <td>{{$key+1}}</td>
                                             <td>{{$item->user_email}}</td>
-                                            <td>{{$item->password}}</td>
                                             <td>{{$item->fullname}}</td>
                                             <td>{{$item->address}}</td>
                                             <td>{{$item->phone}}</td>
@@ -106,9 +104,7 @@
                         <div class="col-md-4">
                             {{$list->appends(request()->all())->links()}}
                         </div>
-                        <div class="col-md-8">
-                            <a href="{{route('users.trash')}}" class="btn btn-outline-danger float-right">Recycle Bin</a>
-                        </div>
+
                       </div>
                     </div>
 
