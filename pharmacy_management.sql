@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 18, 2022 at 12:47 PM
+-- Generation Time: Jul 19, 2022 at 12:28 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.23
 
@@ -234,6 +234,7 @@ CREATE TABLE `users` (
   `fullname` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'họ tên người dùng',
   `address` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'địa chỉ',
   `phone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'số điện thoại',
+  `remember_token` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -243,10 +244,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `permission_id`, `user_email`, `password`, `fullname`, `address`, `phone`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'admin@gmail.com', '$2y$10$dYh/X4NPubK7hyXJewvyQ.f.SbpvLj48U92vE2zf1RyRXRBzWT8U6', 'Phạm Tôn', 'Hà Nội', '0887784041', '2022-07-18 02:32:49', NULL, NULL),
-(2, 2, 'nv1@gmail.com', '$2y$10$/qA/wlEV7y3uSriuq.HepORnQCgJ1FjqYKQDT68UMJPCS9dW.FCBO', 'Hoang anh', 'Cổ Nhuế, Bắc Từ Liêm, Hà Nội', '0886694511', '2022-07-18 02:41:20', NULL, NULL),
-(3, 2, 'nv02@gmail.com', '$2y$10$l/ZRkU23m2hOpneU0W0Vx.cPrRW4ec0I9UvS0wMa//Gx3AfkGxH4.', 'Hoang toan', 'Hà Nội', '0886694532', '2022-07-18 02:42:26', NULL, NULL);
+INSERT INTO `users` (`id`, `permission_id`, `user_email`, `password`, `fullname`, `address`, `phone`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'admin@gmail.com', '$2y$10$dYh/X4NPubK7hyXJewvyQ.f.SbpvLj48U92vE2zf1RyRXRBzWT8U6', 'Phạm Tôn', 'Hà Nội', '0887784041', 'gHUdBaQni0IA7wP9XN5zMRWoXIk2bRQVkNemLpGnMfzWXdnOVg3O15ouUS5S', '2022-07-19 08:47:43', NULL, NULL),
+(2, 2, 'nv1@gmail.com', '$2y$10$/qA/wlEV7y3uSriuq.HepORnQCgJ1FjqYKQDT68UMJPCS9dW.FCBO', 'Hoang anh', 'Cổ Nhuế, Bắc Từ Liêm, Hà Nội', '0886694511', 'zUpP6UqD4DdfA9bsaYl6v5N8CRAwN67Fq8wRdV3RzZo1xe4xIFRjpepAKOut', '2022-07-19 07:07:23', NULL, NULL),
+(4, 2, 'nv02@gmail.com', '$2y$10$sWY1mVSutFcO7dDJ00rWde3oSIfCuKSfEkv.Ra8NF73ZPN5kBgBda', 'nguyen tu', 'Cổ Nhuế, Bắc Từ Liêm, Hà Nội', '0886694532', NULL, '2022-07-19 08:32:41', '2022-07-19 08:32:41', NULL);
 
 --
 -- Indexes for dumped tables
@@ -373,7 +374,7 @@ ALTER TABLE `suppliers`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã tài khoản', AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã tài khoản', AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
