@@ -40,70 +40,53 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form action="{{route('drugs.postEdit')}}" method="POST">
+            <form action="{{route('import_details.postEdit')}}" method="POST">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-6">
+                            <!-- select -->
                             <div class="form-group">
-                                <label for="">Tên thuốc</label>
-                                <input type="text" class="form-control"
-                                  name="drug_name" required placeholder="Nhập tên thuốc..." value="{{old('drug_name') ?? $detail->drug_name}}">
-                                  @error('drug_name')
-                                      <span style="color: red">{{$message}}</span>
-                                  @enderror
+                            <label>Tên thuốc cần nhập</label>
+                            <select class="form-control" name="drug_id">
+                                <option disabled>Chọn thuốc cần nhập</option>
+                                    @if (!empty($drug))
+                                        @foreach ($drug as $item)
+                                        <option value="{{$item->id}}" {{$detail->drug_id==$item->id ? 'selected' : ''}}>{{$item->drug_name}}</option>
+                                        @endforeach
+                                    @endif
+                            </select>
                             </div>
                         </div>
-                      <div class="col-sm-6">
-                        <!-- select -->
-                        <div class="form-group">
-                          <label>Nhóm thuốc</label>
-                          <select class="form-control" name="id_drug_group">
-                            <option selected disabled>Chọn tên nhóm thuốc</option>
-                            @if (!empty($drugGroupName))
-                                @foreach ($drugGroupName as $item)
-                                    <option value="{{$item->id}}">{{$item->name_drug_group}}</option>
-                                @endforeach
-                            @endif
-                          </select>
+                        <div class="col-sm-6">
+                            <!-- select -->
+                            <div class="form-group">
+                            <label>Nhà cung cấp</label>
+                            <select class="form-control" name="supplier_id">
+                                <option disabled>Chọn nhà cung cấp</option>
+                                    @if (!empty($supplier))
+                                        @foreach ($supplier as $item)
+                                        <option value="{{$item->id}}" {{$detail->supplier_id==$item->id ? 'selected' : ''}}>{{$item->supplier_name}}</option>
+                                        @endforeach
+                                    @endif
+                            </select>
+                            </div>
                         </div>
-
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="">Thành phần</label>
-                            <input type="text" class="form-control"
-                              name="ingredient" placeholder="Nhập thành phần thuốc..." value="{{old('ingredient') ?? $detail->ingredient}}">
-                              @error('ingredient')
-                                  <span style="color: red">{{$message}}</span>
-                              @enderror
-                        </div>
-                    </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="">Công dụng</label>
-                            <input type="text" class="form-control"
-                              name="uses" placeholder="Nhập công dụng thuốc..." value="{{old('uses') ?? $detail->uses}}">
-                              @error('uses')
-                                  <span style="color: red">{{$message}}</span>
-                              @enderror
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="">Nhà sản xuất</label>
-                            <input type="text" class="form-control"
-                              name="producer" placeholder="Nhập nhà sản xuất thuốc..." value="{{old('producer') ?? $detail->producer}}">
-                              @error('producer')
-                                  <span style="color: red">{{$message}}</span>
-                              @enderror
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="">Giá bán</label>
+                            <label for="">Số lượng nhập</label>
                             <input type="number" class="form-control"
-                              name="price" pattern="[-+]?[0-9]" min="500"  placeholder="Nhập giá bán thuốc..." value="{{old('price') ?? $detail->price}}">
-                              @error('price')
+                              name="quantity_import" pattern="[-+]?[0-9]" min="0" placeholder="Nhập số lượng..." value="{{old('quantity_import') ?? $detail->quantity_import}}">
+                              @error('quantity_import')
+                                  <span style="color: red">{{$message}}</span>
+                              @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="">Giá nhập</label>
+                            <input type="number" class="form-control"
+                              name="price_import" pattern="[-+]?[0-9]" min="500"  placeholder="Nhập giá bán thuốc..." value="{{old('price_import') ?? $detail->price_import}}">
+                              @error('price_import')
                                   <span style="color: red">{{$message}}</span>
                               @enderror
                         </div>
@@ -125,7 +108,7 @@
 
               <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
-                <a href="{{route('drugs.index')}}" class="btn btn-warning">Back</a>
+                <a href="{{route('import_details.index')}}" class="btn btn-warning">Back</a>
                 @csrf
               </div>
             </form>

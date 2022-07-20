@@ -85,8 +85,8 @@
                     <div class="form-group">
                         <label for="">Giá nhập</label>
                         <input type="number" class="form-control"
-                          name="price" pattern="[-+]?[0-9]" min="500"  placeholder="Nhập giá bán thuốc..." value="{{old('price')}}">
-                          @error('price')
+                          name="price_import" pattern="[-+]?[0-9]" min="500"  placeholder="Nhập giá bán thuốc..." value="{{old('price_import')}}">
+                          @error('price_import')
                               <span style="color: red">{{$message}}</span>
                           @enderror
                     </div>

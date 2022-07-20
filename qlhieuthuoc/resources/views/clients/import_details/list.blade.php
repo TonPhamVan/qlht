@@ -37,7 +37,10 @@
                             <div class="col-md-4">
                                 <a href="{{route('import_details.add')}}" style="margin: 0 0 5px 0" class="btn btn-primary">Thêm thuốc cần nhập</a>
                             </div>
-                            <div class="col-md-8" >
+                            <div class="col-md-8">
+                                <a href="{{route('import_details.update')}}" style="margin: 0 0 5px 0" class="btn btn-success float-right">Cập nhật số lượng vào kho</a>
+                            </div>
+                            {{-- <div class="col-md-8" >
                                 <form action="" method="GET" style="margin: 0 0 5px 0">
                                     <div class="input-group input-group-md">
                                         <input type="text" name="search" value="{{old('search')}}" class="form-control form-control-lg" placeholder="Tìm kiếm tên thuốc cần nhập">
@@ -48,7 +51,7 @@
                                         </div>
                                     </div>
                                 </form>
-                            </div>
+                            </div> --}}
                         </div>
                       <div class="table-responsive p-0">
                         <table class="table  table-hover text-nowrap">
@@ -77,14 +80,14 @@
                                             <td>{{$item->unit}}</td>
                                             <td>{{$item->created_at}}</td>
                                             <td>
-                                                {{-- <a href="{{route('import_details.getEdit',['id'=>$item->id])}}" class ="btn btn-warning btn-md">
+                                                <a href="{{route('import_details.getEdit',['id'=>$item->id])}}" class ="btn btn-warning btn-md">
                                                     <i class="fa-solid fa-pen-to-square"></i>
-                                                </a> --}}
+                                                </a>
                                             </td>
                                             <td>
-                                                {{-- <a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{route('import_details.delete',['id'=>$item->id])}}" class ="btn btn-danger btn-md">
+                                                <a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{route('import_details.delete',['id'=>$item->id])}}" class ="btn btn-danger btn-md">
                                                     <i class="fa-solid fa-trash-can"></i>
-                                                </a> --}}
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach

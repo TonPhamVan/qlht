@@ -11,30 +11,16 @@ class ImportDetailController extends Controller
 {
     public function index(Request $request) {
         $title = 'Thông tin thuốc cần nhập';
-        if(!empty($search = $request->search)){
-            // $list = ImportDetail::select('import_details.*','suppliers.supplier_name')
-            //     ->rightJoin('suppliers', 'import_details.supplier_id','=','suppliers.id')
-            //     ->union($ImportDetail)
-            //     // ->where('import_details.id','!=','import_details.suppliers_id')
-            //     ->where('suppliers.deleted_at',null)
-            //     ->where('import_details.deleted_at',null)
-            //     ->paginate(5);
-            //     // dd($list);
-        } else{
-            $list = ImportDetail::select('import_details.*','suppliers.supplier_name','drugs.drug_name')
-                ->rightJoin('suppliers', 'import_details.supplier_id','=','suppliers.id')
-                ->rightJoin('drugs', 'import_details.drug_id','=','drugs.id')
-                // ->union($drug)
-                ->where('import_details.id','!=','import_details.suppliers_id')
-                ->where('import_details.deleted_at',null)
-                ->where('suppliers.deleted_at',null)
-                ->where('drugs.deleted_at',null)
-                ->paginate(5);
-            // dd($list);
+        $list = ImportDetail::select('import_details.*','suppliers.supplier_name','drugs.drug_name')
+            ->rightJoin('suppliers', 'import_details.supplier_id','=','suppliers.id')
+            ->rightJoin('drugs', 'import_details.drug_id','=','drugs.id')
+            ->where('import_details.id','!=','import_details.suppliers_id')
+            ->where('import_details.deleted_at',null)
+            ->where('suppliers.deleted_at',null)
+            ->where('drugs.deleted_at',null)
+            ->paginate(5);
 
-        }
         return view('clients.import_details.list',compact('title','list'))->with('i',(request()->input('page',1)-1)*1);
-
     }
     // thêm thông tin
     public function add() {
@@ -46,17 +32,11 @@ class ImportDetailController extends Controller
     public function postAdd(Request $request) {
         $request->validate([
             'quantity_import' => 'required',
-            'price' => 'required',
-            'drug_id' => 'required',
-            'supplier_id' => 'required',
-            'unit' => 'required',
+            'price_import' => 'required',
 
         ],[
             'quantity_import.required' => "Tên thuốc bắt buộc phải nhập",
-            'price.required' => "giá nhập bắt buộc phải nhập",
-            'drug_id.required' => "Tên thuốc bắt buộc phải nhập",
-            'supplier_id.required' => "Nhà cung cấp bắt buộc phải nhập",
-            'unit.required' => "Đơn vị thuốc bắt buộc phải nhập",
+            'price_import.required' => "giá nhập bắt buộc phải nhập",
 
         ]);
         $dataInsert = [
@@ -72,20 +52,25 @@ class ImportDetailController extends Controller
     }
 
 
+    public function updateQuantity() {
+        $quantity = ImportDetail::where('deleted_at',null)
+        ->where('status',1)
+        ->get();
+        dd($quantity);
+    }
 
     // sửa thông tin
     public function getEdit(Request $request, $id=0) {
         $title = "Sửa thông tin thuốc";
-        // $ImportDetailGroup = ImportDetail::select('ImportDetails.*','ImportDetail_groups.name_ImportDetail_group')
-        // ->leftJoin('ImportDetail_groups', 'ImportDetails.id_ImportDetail_group','=','ImportDetail_groups.id');
-        // $ImportDetailGroupName = ImportDetailGroup::where('deleted_at',null)->get();
+        $supplier = Supplier::where('deleted_at',null)->get();
+        $drug = Drug::where('deleted_at',null)->get();
         if(!empty($id)){
-            // $detail = ImportDetail::select('ImportDetails.*','ImportDetail_groups.name_ImportDetail_group')
-            // ->rightJoin('ImportDetail_groups', 'ImportDetails.id_ImportDetail_group','=','ImportDetail_groups.id')
-            // ->union($ImportDetailGroup)
-            // ->where('ImportDetails.id','!=','ImportDetails.id_ImportDetail_group')
-            // ->where('ImportDetails.id',$id)
-            // ->get();
+            $detail = ImportDetail::select('import_details.*','suppliers.supplier_name','drugs.drug_name')
+            ->rightJoin('suppliers', 'import_details.supplier_id','=','suppliers.id')
+            ->rightJoin('drugs', 'import_details.drug_id','=','drugs.id')
+            ->where('import_details.id','!=','import_details.suppliers_id')
+            ->where('import_details.id',$id)
+            ->get();
             if(!empty($detail[0])){
                 $request->session()->put('id',$id);
                 $detail = $detail[0];
@@ -94,7 +79,7 @@ class ImportDetailController extends Controller
         } else {
             return redirect()->route('import_details.index')->with('msg','Thông tin thuốc không tồn tại');
         }
-        return view('clients.import_details.edit',compact('title','detail','ImportDetailGroupName'));
+        return view('clients.import_details.edit',compact('title','detail','supplier','drug'));
 
     }
     public function postEdit(Request $request) {
@@ -103,12 +88,12 @@ class ImportDetailController extends Controller
             return back()->with('msg','Liên kết không tồn tại');
         }
         $request->validate([
-            'ImportDetail_name' => 'required',
-            'price' => 'required'
+            'quantity_import' => 'required',
+            'price_import' => 'required',
 
         ],[
-            'ImportDetail_name.required' => "Tên thuốc bắt buộc phải nhập",
-            'price.required' => "giá bán bắt buộc phải nhập",
+            'quantity_import.required' => "Tên thuốc bắt buộc phải nhập",
+            'price_import.required' => "giá nhập bắt buộc phải nhập",
 
         ]);
         $dataUpdate = [
@@ -124,7 +109,7 @@ class ImportDetailController extends Controller
         return redirect()->route('import_details.index')->with('msg','Cập nhật thông tin thuốc thành công');
 
     }
-    //xóa mềm
+    //xóa
     public function delete($id=0) {
         if(!empty($id)){
             $detail = ImportDetail::where('id',$id)->get();

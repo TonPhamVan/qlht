@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 19, 2022 at 12:28 PM
+-- Generation Time: Jul 20, 2022 at 12:36 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.23
 
@@ -112,12 +112,12 @@ CREATE TABLE `drug_groups` (
 --
 
 INSERT INTO `drug_groups` (`id`, `name_drug_group`, `note`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(2, 'Thuốc giảm đau', 'Chữa bệnh đau đầu, sốt, cảm, đau răng, đau bụng kinh, cúm, viêm khớp,...', '2022-07-13 15:53:15', '2022-07-13 15:53:15', NULL),
-(3, 'Thuốc xương khớp', 'Chữa các bệnh về thoái hóa khớp, thoát vị đĩa đệm cột sống, đau thần kinh tọa, viêm khớp dạng thấp, bệnh gout,,loãng xương...', '2022-07-13 16:49:26', '2022-07-13 15:55:56', NULL),
+(2, 'Thuốc giảm đau', NULL, '2022-07-20 03:34:53', '2022-07-20 03:34:53', NULL),
+(3, 'Thuốc xương khớp', NULL, '2022-07-20 03:34:44', '2022-07-20 03:34:44', NULL),
 (5, 'Thuốc hạ sốt', NULL, '2022-07-13 16:48:27', NULL, NULL),
 (6, 'Thuốc bổ', NULL, '2022-07-14 02:57:38', NULL, NULL),
 (7, 'Thực phẩm chức năng', NULL, '2022-07-14 10:50:35', NULL, '2022-07-14 10:50:35'),
-(8, 'Thuốc an thần', 'ggg', '2022-07-14 12:07:14', '2022-07-14 12:07:14', NULL);
+(8, 'Thuốc an thần', NULL, '2022-07-20 03:35:00', '2022-07-20 03:35:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -168,11 +168,20 @@ CREATE TABLE `import_details` (
   `quantity_import` int(11) NOT NULL COMMENT 'số lượng nhập',
   `price_import` decimal(10,0) NOT NULL COMMENT 'đơn giá nhập',
   `unit` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'hộp' COMMENT 'đơn vị thuốc',
-  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1 hiện, 0 ẩn',
+  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1 chua import, 0 da import',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'ngày nhập',
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `import_details`
+--
+
+INSERT INTO `import_details` (`id`, `drug_id`, `supplier_id`, `quantity_import`, `price_import`, `unit`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 9, 2, 50, '100000', 'Hộp', 1, '2022-07-20 01:41:00', NULL, NULL),
+(2, 13, 2, 100, '200000', 'Lọ', 1, '2022-07-20 02:11:58', '2022-07-20 02:11:58', NULL),
+(3, 7, 2, 500, '30000', 'Hộp', 0, '2022-07-20 10:34:47', NULL, '2022-07-20 02:12:59');
 
 -- --------------------------------------------------------
 
@@ -356,7 +365,7 @@ ALTER TABLE `export_details`
 -- AUTO_INCREMENT for table `import_details`
 --
 ALTER TABLE `import_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã chi tiết nhập';
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã chi tiết nhập', AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `permissions`

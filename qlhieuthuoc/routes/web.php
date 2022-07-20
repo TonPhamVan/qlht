@@ -134,11 +134,8 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/delete/{id}',[ImportDetailController::class,'delete'])->name('delete');
 
-        Route::get('/trash',[ImportDetailController::class,'trash'])->name('trash');
+        Route::get('/update',[ImportDetailController::class,'updateQuantity'])->name('update');
 
-        Route::get('/untrash/{id}',[ImportDetailController::class,'untrash'])->name('untrash');
-
-        Route::get('/forceDelete/{id}',[ImportDetailController::class,'forceDelete'])->name('forceDelete');
 
     });
 
