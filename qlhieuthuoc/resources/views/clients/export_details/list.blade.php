@@ -35,15 +35,15 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-4">
-                                <a href="{{route('import_details.add')}}" style="margin: 0 0 5px 0" class="btn btn-primary">Thêm thuốc cần nhập</a>
+                                <a href="{{route('export_details.add')}}" style="margin: 0 0 5px 0" class="btn btn-primary">Thêm thuốc xuất đi</a>
                             </div>
                             <div class="col-md-8">
-                                <a href="{{route('import_details.update')}}" style="margin: 0 0 5px 0" class="btn btn-success float-right">Cập nhật số lượng trong kho</a>
+                                <a href="{{route('export_details.update')}}" style="margin: 0 0 5px 0" class="btn btn-success float-right">Lập hóa đơn</a>
                             </div>
                             {{-- <div class="col-md-8" >
                                 <form action="" method="GET" style="margin: 0 0 5px 0">
                                     <div class="input-group input-group-md">
-                                        <input type="text" name="search" value="{{old('search')}}" class="form-control form-control-lg" placeholder="Tìm kiếm tên thuốc cần nhập">
+                                        <input type="text" name="search" value="{{old('search')}}" class="form-control form-control-lg" placeholder="Tìm kiếm tên thuốc xuất đi">
                                         <div class="input-group-append">
                                             <button type="submit" class="btn btn-lg btn-default btn-secondary">
                                                 <i class="fa fa-search"></i>
@@ -59,9 +59,8 @@
                               <tr>
                                 <th style="width: 10px">STT</th>
                                 <th>Tên thuốc</th>
-                                <th>Tên nhà cung cấp</th>
-                                <th>Số lượng nhập</th>
-                                <th>Giá nhập</th>
+                                <th>Số lượng xuất đi</th>
+                                <th>Giá bán</th>
                                 <th>Đơn vị</th>
                                 <th>Trạng thái</th>
                                 <th>Tổng tiền</th>
@@ -75,16 +74,15 @@
                                         <tr>
                                             <td>{{$key+1}}</td>
                                             <td>{{$item->drug_name}}</td>
-                                            <td>{{$item->supplier_name}}</td>
-                                            <td>{{$item->quantity_import}}</td>
-                                            <td>{{$item->price_import}}</td>
+                                            <td>{{$item->quantity_export}}</td>
+                                            <td>{{$item->price}}</td>
                                             <td>{{$item->unit}}</td>
-                                            <td>{!!$item->status==1 ? '<button class="btn btn-sm btn-danger">Chưa nhập</button>' :
-                                            '<button class="btn btn-sm btn-success">Đã nhập</button>'!!}</td>
+                                            <td>{!!$item->status==1 ? '<button class="btn btn-sm btn-danger">Chưa xuất</button>' :
+                                            '<button class="btn btn-sm btn-success">Đã xuất</button>'!!}</td>
                                             <td>{{$item->total_price}}</td>
                                             <td>{{$item->created_at}}</td>
                                             <td>
-                                                <a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{route('import_details.delete',['id'=>$item->id])}}" class ="btn btn-danger btn-md">
+                                                <a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{route('export_details.delete',['id'=>$item->id])}}" class ="btn btn-danger btn-md">
                                                     <i class="fa-solid fa-trash-can"></i>
                                                 </a>
                                             </td>
@@ -92,7 +90,7 @@
                                     @endforeach
                                 @else
                                       <tr>
-                                        <td colspan="7">Không có thuốc cần nhập</td>
+                                        <td colspan="7">Không có thuốc xuất đi</td>
                                       </tr>
                                 @endif
 

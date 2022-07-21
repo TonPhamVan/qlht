@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('add-drug')
+@section('add-import_detail')
 <section class="content-header">
     {{-- <div class="container-fluid">
       <div class="row mb-2">
@@ -91,7 +91,7 @@
                           @enderror
                     </div>
                 </div>
-                <div class="col-sm-6">
+                {{-- <div class="col-sm-6">
                     <!-- select -->
                     <div class="form-group">
                       <label>Đơn vị thuốc</label>
@@ -102,7 +102,7 @@
                         <option value="Vỉ" {{old('unit')=='Vỉ' ? 'selected':false}}>Vỉ</option>
                       </select>
                     </div>
-                </div>
+                </div> --}}
 
             </div>
               <!-- /.card-body -->

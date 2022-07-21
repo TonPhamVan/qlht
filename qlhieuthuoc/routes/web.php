@@ -3,6 +3,7 @@
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DrugController;
 use App\Http\Controllers\DrugGroupController;
+use App\Http\Controllers\ExportDetailController;
 use App\Http\Controllers\ImportDetailController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SupplierController;
@@ -128,13 +129,23 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/add',[ImportDetailController::class,'postAdd'])->name('postAdd');
 
-        Route::get('/edit/{id}',[ImportDetailController::class,'getEdit'])->name('getEdit');
-
-        Route::post('/update',[ImportDetailController::class,'postEdit'])->name('postEdit');
-
         Route::get('/delete/{id}',[ImportDetailController::class,'delete'])->name('delete');
 
         Route::get('/update',[ImportDetailController::class,'updateQuantity'])->name('update');
+
+
+    });
+
+    Route::prefix('export_details')->name('export_details.')->group(function() {
+        Route::get('/',[ExportDetailController::class,'index'])->name('index');
+
+        Route::get('/add',[ExportDetailController::class,'add'])->name('add');
+
+        Route::post('/add',[ExportDetailController::class,'postAdd'])->name('postAdd');
+
+        Route::get('/delete/{id}',[ExportDetailController::class,'delete'])->name('delete');
+
+        Route::get('/update',[ExportDetailController::class,'updateQuantity'])->name('update');
 
 
     });

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 20, 2022 at 12:36 PM
+-- Generation Time: Jul 21, 2022 at 12:54 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.23
 
@@ -82,15 +82,15 @@ CREATE TABLE `drugs` (
 --
 
 INSERT INTO `drugs` (`id`, `id_drug_group`, `drug_name`, `ingredient`, `uses`, `producer`, `quantity`, `price`, `unit`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(5, 3, 'sdfsdf', NULL, NULL, NULL, 0, '222222', 'Hộp', '2022-07-14 12:04:59', NULL, '2022-07-14 12:04:59'),
-(6, 5, 'dgfdg', NULL, NULL, NULL, 0, '100000', 'Vỉ', '2022-07-14 12:04:33', NULL, '2022-07-14 12:04:33'),
-(7, 5, 'xbc', NULL, NULL, NULL, 0, '100000', 'Vỉ', '2022-07-15 03:49:03', NULL, NULL),
-(9, 6, 'Omega 3', NULL, NULL, NULL, 0, '100000', 'Hộp', '2022-07-15 01:10:27', NULL, NULL),
-(10, 5, 'Panactol extra', NULL, NULL, NULL, NULL, '100000', 'Vỉ', '2022-07-15 04:35:08', '2022-07-15 04:35:08', NULL),
-(11, 6, 'Omega 33', NULL, NULL, NULL, NULL, '100000', 'Lọ', '2022-07-15 02:05:33', NULL, NULL),
-(12, 8, 'xbch', NULL, NULL, NULL, NULL, '5000', 'Vỉ', '2022-07-15 04:55:40', '2022-07-15 04:55:40', NULL),
-(13, 8, 'Omega 3333', NULL, NULL, NULL, NULL, '6555', 'Vỉ', '2022-07-15 02:37:03', NULL, NULL),
-(14, 6, 'Omega 33223', NULL, NULL, NULL, NULL, '100000', 'Hộp', '2022-07-15 04:03:54', NULL, NULL);
+(5, 3, 'sdfsdf', NULL, NULL, NULL, 250, '220000', 'Hộp', '2022-07-21 03:45:51', '2022-07-21 03:45:51', '2022-07-14 12:04:59'),
+(6, 5, 'dgfdg', NULL, NULL, NULL, 250, '220000', 'Vỉ', '2022-07-21 03:45:51', '2022-07-21 03:45:51', '2022-07-14 12:04:33'),
+(7, 5, 'xbc', NULL, NULL, NULL, 250, '220000', 'Vỉ', '2022-07-21 03:45:51', '2022-07-21 03:45:51', NULL),
+(9, 6, 'Omega 3', NULL, NULL, NULL, -2930, '110000', 'Hộp', '2022-07-21 10:26:10', '2022-07-21 10:26:10', NULL),
+(10, 5, 'Panactol extra', NULL, NULL, NULL, 300, '165000', 'Vỉ', '2022-07-21 04:15:40', '2022-07-21 04:15:40', NULL),
+(11, 6, 'Omega 33', NULL, NULL, NULL, -3150, '220000', 'Lọ', '2022-07-21 10:26:10', '2022-07-21 10:26:10', NULL),
+(12, 8, 'xbch', NULL, NULL, NULL, 330, '55000', 'Vỉ', '2022-07-21 09:52:15', '2022-07-21 09:52:15', NULL),
+(13, 8, 'Omega 3333', NULL, NULL, NULL, 550, '220000', 'Vỉ', '2022-07-21 03:58:18', '2022-07-21 03:58:18', NULL),
+(14, 6, 'Omega 33223', NULL, NULL, NULL, 250, '220000', 'Hộp', '2022-07-21 03:45:51', '2022-07-21 03:45:51', NULL);
 
 -- --------------------------------------------------------
 
@@ -130,7 +130,7 @@ CREATE TABLE `export_bills` (
   `export_detail_id` int(11) NOT NULL COMMENT 'mã chi tiết bán',
   `user_id` int(11) NOT NULL COMMENT 'mã tài khoản',
   `customer_id` int(11) NOT NULL COMMENT 'mã khách hàng',
-  `total_price` decimal(10,0) NOT NULL COMMENT 'tổng tiền',
+  `total_pay` decimal(10,0) NOT NULL COMMENT 'tổng tiền để thanh toán',
   `notes` text COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'ghi chú thông tin bán ',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'ngày bán',
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -147,13 +147,29 @@ CREATE TABLE `export_details` (
   `id` int(11) NOT NULL COMMENT 'mã chi tiết bán',
   `drug_id` int(11) NOT NULL COMMENT 'mã thuốc',
   `quantity_export` int(11) NOT NULL COMMENT 'số lượng xuất',
-  `price_export` decimal(10,0) NOT NULL COMMENT 'đơn giá bán',
-  `unit` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'hộp' COMMENT 'đơn vị thuốc',
   `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1 hiện, 0 ẩn',
+  `total_price` decimal(10,0) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'ngày bán',
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `export_details`
+--
+
+INSERT INTO `export_details` (`id`, `drug_id`, `quantity_export`, `status`, `total_price`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 9, 50, 1, '0', '2022-07-21 09:21:12', NULL, NULL),
+(2, 11, 50, 1, '0', '2022-07-21 09:24:58', NULL, NULL),
+(3, 7, 30, 1, '0', '2022-07-21 09:32:46', NULL, '2022-07-21 09:32:46'),
+(4, 7, 30, 1, '0', '2022-07-21 10:34:21', NULL, NULL),
+(5, 12, 30, 1, '0', '2022-07-21 10:46:11', NULL, NULL),
+(6, 9, 40, 1, '0', '2022-07-21 10:50:06', NULL, NULL),
+(7, 9, 40, 1, '0', '2022-07-21 10:52:22', NULL, NULL),
+(8, 7, 3, 1, '0', '2022-07-21 10:53:10', NULL, NULL),
+(9, 7, 3, 1, '0', '2022-07-21 10:53:36', NULL, NULL),
+(10, 12, 4, 1, '0', '2022-07-21 10:53:45', NULL, NULL),
+(11, 11, 4, 1, '0', '2022-07-21 10:54:14', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -167,8 +183,8 @@ CREATE TABLE `import_details` (
   `supplier_id` int(11) NOT NULL COMMENT 'mã nhà cung cấp',
   `quantity_import` int(11) NOT NULL COMMENT 'số lượng nhập',
   `price_import` decimal(10,0) NOT NULL COMMENT 'đơn giá nhập',
-  `unit` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'hộp' COMMENT 'đơn vị thuốc',
   `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1 chua import, 0 da import',
+  `total_price` decimal(10,0) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'ngày nhập',
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -178,10 +194,14 @@ CREATE TABLE `import_details` (
 -- Dumping data for table `import_details`
 --
 
-INSERT INTO `import_details` (`id`, `drug_id`, `supplier_id`, `quantity_import`, `price_import`, `unit`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 9, 2, 50, '100000', 'Hộp', 1, '2022-07-20 01:41:00', NULL, NULL),
-(2, 13, 2, 100, '200000', 'Lọ', 1, '2022-07-20 02:11:58', '2022-07-20 02:11:58', NULL),
-(3, 7, 2, 500, '30000', 'Hộp', 0, '2022-07-20 10:34:47', NULL, '2022-07-20 02:12:59');
+INSERT INTO `import_details` (`id`, `drug_id`, `supplier_id`, `quantity_import`, `price_import`, `status`, `total_price`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 9, 2, 50, '100000', 0, '0', '2022-07-21 09:51:45', NULL, '2022-07-21 09:51:45'),
+(2, 13, 2, 100, '200000', 0, '0', '2022-07-21 09:51:50', '2022-07-20 02:11:58', '2022-07-21 09:51:50'),
+(3, 7, 2, 500, '30000', 0, '0', '2022-07-20 10:34:47', NULL, '2022-07-20 02:12:59'),
+(4, 10, 2, 50, '150000', 0, '0', '2022-07-21 09:51:40', NULL, '2022-07-21 09:51:40'),
+(5, 12, 2, 50, '20000', 0, '0', '2022-07-21 09:51:34', NULL, '2022-07-21 09:51:34'),
+(6, 9, 2, 20, '100000', 0, '2000000', '2022-07-21 09:51:27', NULL, NULL),
+(7, 12, 2, 30, '50000', 0, '1500000', '2022-07-21 09:52:15', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -359,13 +379,13 @@ ALTER TABLE `export_bills`
 -- AUTO_INCREMENT for table `export_details`
 --
 ALTER TABLE `export_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã chi tiết bán';
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã chi tiết bán', AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `import_details`
 --
 ALTER TABLE `import_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã chi tiết nhập', AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã chi tiết nhập', AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `permissions`

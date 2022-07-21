@@ -51,14 +51,16 @@
     {{-- import_detail --}}
     @yield('add-import_detail')
     @yield('list-import_detail')
-    @yield('listdelete-import_detail')
-    @yield('edit-import_detail')
 
-        {{-- user --}}
-        @yield('add-user')
-        @yield('list-user')
-        @yield('listdelete-user')
-        @yield('edit-user')
+    {{-- export_detail --}}
+    @yield('add-export_detail')
+    @yield('list-export_detail')
+
+    {{-- user --}}
+    @yield('add-user')
+    @yield('list-user')
+    @yield('listdelete-user')
+    @yield('edit-user')
   </div>
   <!-- /.content-wrapper -->
 
