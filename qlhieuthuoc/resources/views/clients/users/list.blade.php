@@ -74,7 +74,9 @@
                                             <td>{{$item->fullname}}</td>
                                             <td>{{$item->address}}</td>
                                             <td>{{$item->phone}}</td>
-                                            <td>{{$item->permission_name}}</td>
+                                            {{-- <td>{{$item->permission_name}}</td> --}}
+                                            <td>{!!$item->permission_name=='admin' ? '<button class="btn btn-sm btn-danger">Admin</button>' :
+                                                '<button class="btn btn-sm btn-success">Nhân viên</button>'!!}</td>
                                             <td>{{$item->created_at}}</td>
                                             <td>
                                                 <a href="{{route('users.getEdit',['id'=>$item->id])}}" class ="btn btn-warning btn-md">

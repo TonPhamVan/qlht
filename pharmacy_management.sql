@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 21, 2022 at 12:54 PM
+-- Generation Time: Jul 22, 2022 at 12:31 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.23
 
@@ -85,9 +85,9 @@ INSERT INTO `drugs` (`id`, `id_drug_group`, `drug_name`, `ingredient`, `uses`, `
 (5, 3, 'sdfsdf', NULL, NULL, NULL, 250, '220000', 'Hộp', '2022-07-21 03:45:51', '2022-07-21 03:45:51', '2022-07-14 12:04:59'),
 (6, 5, 'dgfdg', NULL, NULL, NULL, 250, '220000', 'Vỉ', '2022-07-21 03:45:51', '2022-07-21 03:45:51', '2022-07-14 12:04:33'),
 (7, 5, 'xbc', NULL, NULL, NULL, 250, '220000', 'Vỉ', '2022-07-21 03:45:51', '2022-07-21 03:45:51', NULL),
-(9, 6, 'Omega 3', NULL, NULL, NULL, -2930, '110000', 'Hộp', '2022-07-21 10:26:10', '2022-07-21 10:26:10', NULL),
+(9, 6, 'Omega 3', NULL, NULL, NULL, 0, '110000', 'Hộp', '2022-07-22 01:56:33', '2022-07-21 10:26:10', NULL),
 (10, 5, 'Panactol extra', NULL, NULL, NULL, 300, '165000', 'Vỉ', '2022-07-21 04:15:40', '2022-07-21 04:15:40', NULL),
-(11, 6, 'Omega 33', NULL, NULL, NULL, -3150, '220000', 'Lọ', '2022-07-21 10:26:10', '2022-07-21 10:26:10', NULL),
+(11, 6, 'Omega 33', NULL, NULL, NULL, 50, '25055', 'Lọ', '2022-07-22 05:09:30', '2022-07-22 05:09:30', NULL),
 (12, 8, 'xbch', NULL, NULL, NULL, 330, '55000', 'Vỉ', '2022-07-21 09:52:15', '2022-07-21 09:52:15', NULL),
 (13, 8, 'Omega 3333', NULL, NULL, NULL, 550, '220000', 'Vỉ', '2022-07-21 03:58:18', '2022-07-21 03:58:18', NULL),
 (14, 6, 'Omega 33223', NULL, NULL, NULL, 250, '220000', 'Hộp', '2022-07-21 03:45:51', '2022-07-21 03:45:51', NULL);
@@ -117,7 +117,7 @@ INSERT INTO `drug_groups` (`id`, `name_drug_group`, `note`, `created_at`, `updat
 (5, 'Thuốc hạ sốt', NULL, '2022-07-13 16:48:27', NULL, NULL),
 (6, 'Thuốc bổ', NULL, '2022-07-14 02:57:38', NULL, NULL),
 (7, 'Thực phẩm chức năng', NULL, '2022-07-14 10:50:35', NULL, '2022-07-14 10:50:35'),
-(8, 'Thuốc an thần', NULL, '2022-07-20 03:35:00', '2022-07-20 03:35:00', NULL);
+(8, 'Thuốc an thần', 'giảm stress  asdkfalsf sdkfasdf sdfasdf asdfsadf sdfasdf sdfasdf sdfsadf', '2022-07-22 08:39:07', '2022-07-22 08:39:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -127,7 +127,6 @@ INSERT INTO `drug_groups` (`id`, `name_drug_group`, `note`, `created_at`, `updat
 
 CREATE TABLE `export_bills` (
   `id` int(11) NOT NULL COMMENT 'mã hóa đơn bán',
-  `export_detail_id` int(11) NOT NULL COMMENT 'mã chi tiết bán',
   `user_id` int(11) NOT NULL COMMENT 'mã tài khoản',
   `customer_id` int(11) NOT NULL COMMENT 'mã khách hàng',
   `total_pay` decimal(10,0) NOT NULL COMMENT 'tổng tiền để thanh toán',
@@ -146,30 +145,14 @@ CREATE TABLE `export_bills` (
 CREATE TABLE `export_details` (
   `id` int(11) NOT NULL COMMENT 'mã chi tiết bán',
   `drug_id` int(11) NOT NULL COMMENT 'mã thuốc',
+  `bill_id` int(11) NOT NULL COMMENT 'mã hóa đơn bán',
   `quantity_export` int(11) NOT NULL COMMENT 'số lượng xuất',
-  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1 hiện, 0 ẩn',
+  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1 chưa xuất, 0 đã xuất',
   `total_price` decimal(10,0) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'ngày bán',
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `export_details`
---
-
-INSERT INTO `export_details` (`id`, `drug_id`, `quantity_export`, `status`, `total_price`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 9, 50, 1, '0', '2022-07-21 09:21:12', NULL, NULL),
-(2, 11, 50, 1, '0', '2022-07-21 09:24:58', NULL, NULL),
-(3, 7, 30, 1, '0', '2022-07-21 09:32:46', NULL, '2022-07-21 09:32:46'),
-(4, 7, 30, 1, '0', '2022-07-21 10:34:21', NULL, NULL),
-(5, 12, 30, 1, '0', '2022-07-21 10:46:11', NULL, NULL),
-(6, 9, 40, 1, '0', '2022-07-21 10:50:06', NULL, NULL),
-(7, 9, 40, 1, '0', '2022-07-21 10:52:22', NULL, NULL),
-(8, 7, 3, 1, '0', '2022-07-21 10:53:10', NULL, NULL),
-(9, 7, 3, 1, '0', '2022-07-21 10:53:36', NULL, NULL),
-(10, 12, 4, 1, '0', '2022-07-21 10:53:45', NULL, NULL),
-(11, 11, 4, 1, '0', '2022-07-21 10:54:14', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -201,7 +184,8 @@ INSERT INTO `import_details` (`id`, `drug_id`, `supplier_id`, `quantity_import`,
 (4, 10, 2, 50, '150000', 0, '0', '2022-07-21 09:51:40', NULL, '2022-07-21 09:51:40'),
 (5, 12, 2, 50, '20000', 0, '0', '2022-07-21 09:51:34', NULL, '2022-07-21 09:51:34'),
 (6, 9, 2, 20, '100000', 0, '2000000', '2022-07-21 09:51:27', NULL, NULL),
-(7, 12, 2, 30, '50000', 0, '1500000', '2022-07-21 09:52:15', NULL, NULL);
+(7, 12, 2, 30, '50000', 0, '1500000', '2022-07-21 09:52:15', NULL, NULL),
+(8, 11, 2, 50, '22777', 0, '1138850', '2022-07-22 05:09:30', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -274,8 +258,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `permission_id`, `user_email`, `password`, `fullname`, `address`, `phone`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'admin@gmail.com', '$2y$10$dYh/X4NPubK7hyXJewvyQ.f.SbpvLj48U92vE2zf1RyRXRBzWT8U6', 'Phạm Tôn', 'Hà Nội', '0887784041', 'gHUdBaQni0IA7wP9XN5zMRWoXIk2bRQVkNemLpGnMfzWXdnOVg3O15ouUS5S', '2022-07-19 08:47:43', NULL, NULL),
-(2, 2, 'nv1@gmail.com', '$2y$10$/qA/wlEV7y3uSriuq.HepORnQCgJ1FjqYKQDT68UMJPCS9dW.FCBO', 'Hoang anh', 'Cổ Nhuế, Bắc Từ Liêm, Hà Nội', '0886694511', 'zUpP6UqD4DdfA9bsaYl6v5N8CRAwN67Fq8wRdV3RzZo1xe4xIFRjpepAKOut', '2022-07-19 07:07:23', NULL, NULL),
+(1, 1, 'admin@gmail.com', '$2y$10$dYh/X4NPubK7hyXJewvyQ.f.SbpvLj48U92vE2zf1RyRXRBzWT8U6', 'Phạm Tôn', 'Hà Nội', '0887784041', '6NwNMuf68D2xlgfOFKIUAwUtZopKuiog1FLLJMEyZgYWSpoPNw2Zst5vDTVQ', '2022-07-22 04:32:32', NULL, NULL),
+(2, 2, 'nv1@gmail.com', '$2y$10$/qA/wlEV7y3uSriuq.HepORnQCgJ1FjqYKQDT68UMJPCS9dW.FCBO', 'Hoang anh', 'Cổ Nhuế, Bắc Từ Liêm, Hà Nội', '0886694511', 'ujQdpGpNwqNc9Mezg5uqaIl7WXZURcCxBGJUt9o3Okvcfkeof5GuBg3BoSui', '2022-07-22 04:33:06', NULL, NULL),
 (4, 2, 'nv02@gmail.com', '$2y$10$sWY1mVSutFcO7dDJ00rWde3oSIfCuKSfEkv.Ra8NF73ZPN5kBgBda', 'nguyen tu', 'Cổ Nhuế, Bắc Từ Liêm, Hà Nội', '0886694532', NULL, '2022-07-19 08:32:41', '2022-07-19 08:32:41', NULL);
 
 --
@@ -306,7 +290,6 @@ ALTER TABLE `drug_groups`
 --
 ALTER TABLE `export_bills`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `export_detail_id` (`export_detail_id`),
   ADD KEY `customer_id` (`customer_id`),
   ADD KEY `user_id` (`user_id`);
 
@@ -315,7 +298,8 @@ ALTER TABLE `export_bills`
 --
 ALTER TABLE `export_details`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `drug_id` (`drug_id`);
+  ADD KEY `drug_id` (`drug_id`),
+  ADD KEY `bill_id` (`bill_id`);
 
 --
 -- Indexes for table `import_details`
@@ -379,13 +363,13 @@ ALTER TABLE `export_bills`
 -- AUTO_INCREMENT for table `export_details`
 --
 ALTER TABLE `export_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã chi tiết bán', AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã chi tiết bán', AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `import_details`
 --
 ALTER TABLE `import_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã chi tiết nhập', AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã chi tiết nhập', AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -419,7 +403,6 @@ ALTER TABLE `drugs`
 -- Constraints for table `export_bills`
 --
 ALTER TABLE `export_bills`
-  ADD CONSTRAINT `export_bills_ibfk_1` FOREIGN KEY (`export_detail_id`) REFERENCES `export_details` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `export_bills_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `export_bills_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
@@ -427,7 +410,8 @@ ALTER TABLE `export_bills`
 -- Constraints for table `export_details`
 --
 ALTER TABLE `export_details`
-  ADD CONSTRAINT `export_details_ibfk_1` FOREIGN KEY (`drug_id`) REFERENCES `drugs` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `export_details_ibfk_1` FOREIGN KEY (`drug_id`) REFERENCES `drugs` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `export_details_ibfk_2` FOREIGN KEY (`bill_id`) REFERENCES `export_bills` (`id`);
 
 --
 -- Constraints for table `import_details`

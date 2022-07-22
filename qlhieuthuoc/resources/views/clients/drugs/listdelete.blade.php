@@ -74,7 +74,7 @@
                                             <td>{{$key+1}}</td>
                                             <td>{{$item->drug_name}}</td>
                                             <td>{{$item->name_drug_group}}</td>
-                                            <td>{{$item->price}}</td>
+                                            <td>{{number_format($item->price).'đ'}}</td>
                                             <td>{{$item->unit}}</td>
                                             <td>{{$item->ingredient}}</td>
                                             <td>{{$item->uses}}</td>

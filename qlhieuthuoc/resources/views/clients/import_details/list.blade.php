@@ -77,11 +77,11 @@
                                             <td>{{$item->drug_name}}</td>
                                             <td>{{$item->supplier_name}}</td>
                                             <td>{{$item->quantity_import}}</td>
-                                            <td>{{$item->price_import}}</td>
+                                            <td>{{number_format($item->price_import).'đ'}}</td>
                                             <td>{{$item->unit}}</td>
                                             <td>{!!$item->status==1 ? '<button class="btn btn-sm btn-danger">Chưa nhập</button>' :
                                             '<button class="btn btn-sm btn-success">Đã nhập</button>'!!}</td>
-                                            <td>{{$item->total_price}}</td>
+                                            <td>{{number_format($item->total_price).'đ'}}</td>
                                             <td>{{$item->created_at}}</td>
                                             <td>
                                                 <a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{route('import_details.delete',['id'=>$item->id])}}" class ="btn btn-danger btn-md">

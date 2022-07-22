@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Drug;
 use App\Models\ExportDetail;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,47 +13,41 @@ use Illuminate\Support\Facades\DB;
 class ExportDetailController extends Controller
 {
     public function index(Request $request) {
-        $title = 'Thông tin thuốc cần xuất';
+        $title = 'Tạo hóa đơn xuất hàng';
+        $drug = Drug::where('deleted_at',null)->get();
+        $customer = Customer::where('deleted_at',null)->get();
+        $user = User::where('deleted_at',null)->get();
         $list = ExportDetail::select('export_details.*','drugs.drug_name','drugs.unit','drugs.price')
             ->rightJoin('drugs', 'export_details.drug_id','=','drugs.id')
-            ->orderBy('created_at','DESC')
             ->where('export_details.id','!=','export_details.drug_id')
             ->where('export_details.deleted_at',null)
             ->where('drugs.deleted_at',null)
-            ->paginate(5);
-        // $quantityDrug = Drug::where('deleted_at', null)
-        // ->get();
-        // // dd($quantityDrug);
+            ->get();
+        foreach ($list as $key => $item) {
+                    $dataUpdate=[
+                        'total_price'=>$item->price*$item->quantity_export,
+                        'updated_at'=>date('Y-m-d H:i:s')
+                    ];
+                    ExportDetail::where('id',$item->id)->update($dataUpdate);
+                }
+        $listUpdate = ExportDetail::select('export_details.*','drugs.drug_name','drugs.unit','drugs.price')
+        ->rightJoin('drugs', 'export_details.drug_id','=','drugs.id')
+        ->orderBy('created_at','DESC')
+        ->where('export_details.id','!=','export_details.drug_id')
+        ->where('export_details.status',1)
+        ->where('export_details.deleted_at',null)
+        ->where('drugs.deleted_at',null)
+        ->paginate(5);
 
-        // if(!empty($list) && !empty($quantityDrug)) {
-        //     foreach ($list as $key => $item) {
-        //         foreach($quantityDrug as $keys => $items){
-        //             if($item->drug_id == $items->id && $item->status==1){
-        //                 $dataUpdate=[
-        //                     'total_price'=>$items->price*$item->quantity_export,
-        //                     'updated_at'=>date('Y-m-d H:i:s')
-        //                 ];
-        //                 ExportDetail::where('id',$item->drug_id)->update($dataUpdate);
-        //             }
-        //         }
-        //     }
-        // }
-
-        // $listExport = ExportDetail::select('export_details.*','drugs.drug_name','drugs.unit','drugs.price')
-        //     ->rightJoin('drugs', 'export_details.drug_id','=','drugs.id')
-        //     ->orderBy('created_at','DESC')
-        //     ->where('export_details.id','!=','export_details.drug_id')
-        //     ->where('export_details.deleted_at',null)
-        //     ->where('drugs.deleted_at',null)
-        //     ->paginate(5);
-        // dd($listExport);
-        return view('clients.export_details.list',compact('title','list'))->with('i',(request()->input('page',1)-1)*1);
+        return view('clients.export_details.add',compact('title','listUpdate','drug','customer','user'));
     }
     // thêm thông tin
     public function add() {
         $title = 'Thêm thông tin thuốc cần xuất';
         $drug = Drug::where('deleted_at',null)->get();
-        return view('clients.export_details.add',compact('title','drug'));
+        $customer = Customer::where('deleted_at',null)->get();
+        $user = User::where('deleted_at',null)->get();
+        return view('clients.export_details.add',compact('title','drug','customer','user'));
     }
     public function postAdd(Request $request) {
         $request->validate([
@@ -65,33 +61,12 @@ class ExportDetailController extends Controller
 
         $dataInsert = [
             'drug_id'=>$request->drug_id,
+            'bill_id'=>$request->bill_id,
             'quantity_export'=>$request->quantity_export,
             'total_price'=>0,
             'created_at'=>date('Y-m-d H:i:s')
         ];
         ExportDetail::insert($dataInsert);
-
-        $list = ExportDetail::select('export_details.*','drugs.drug_name','drugs.unit','drugs.price')
-            ->rightJoin('drugs', 'export_details.drug_id','=','drugs.id')
-            ->orderBy('created_at','DESC')
-            ->where('export_details.id','!=','export_details.drug_id')
-            ->where('export_details.deleted_at',null)
-            ->where('drugs.deleted_at',null)
-            ->get();
-        $quantityDrug = Drug::where('deleted_at', null)
-        ->get();
-        foreach ($list as $key => $item) {
-            foreach($quantityDrug as $keys => $items){
-                dd($item,$items);
-                if($item->id == $items->drug_id && $item->status==1){
-                    $dataUpdate=[
-                        'total_price'=>$items->price*$item->quantity_export,
-                        'updated_at'=>date('Y-m-d H:i:s')
-                    ];
-                    ExportDetail::where('id',$item->drug_id)->update($dataUpdate);
-                }
-            }
-        }
 
         return redirect()->route('export_details.index')->with('msg','Thêm thông tin thuốc thành công');
     }

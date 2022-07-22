@@ -31,81 +31,127 @@
 
                         @endif
                     </div>
+                    <div>
+                        @if (session('msg'))
+                            <div class="alert alert-success">{{session('msg')}}</div>
+
+                        @endif
+                        @if ($errors->any())
+                            <div class="alert alert-danger">Dữ liệu nhập vào không hơp lệ. Vui lòng kiểm tra lại</div>
+                        @endif
+                    </div>
                     <!-- /.card-header -->
-                    <div class="card-body">
+                    <!-- form start -->
+                    <form action="{{route('export_details.postAdd')}}" method="POST">
+                      <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4">
-                                <a href="{{route('export_details.add')}}" style="margin: 0 0 5px 0" class="btn btn-primary">Thêm thuốc xuất đi</a>
+                            <div class="col-sm-12">
+                                <!-- select -->
+                                <div class="form-group">
+                                <label>Khách hàng</label>
+                                <select class="form-control" name="drug_id">
+                                    <option selected disabled>Chọn khách hàng</option>
+                                        @if (!empty($customer))
+                                            @foreach ($customer as $item)
+                                            <option value="{{$item->id}}">{{$item->customer_name}}</option>
+                                            @endforeach
+                                        @endif
+                                </select>
+                                </div>
                             </div>
-                            <div class="col-md-8">
-                                <a href="{{route('export_details.update')}}" style="margin: 0 0 5px 0" class="btn btn-success float-right">Lập hóa đơn</a>
+                            <div class="col-sm-12">
+                                <!-- select -->
+                                <div class="form-group">
+                                <label>Người bán</label>
+                                <select class="form-control" name="drug_id">
+                                    <option selected disabled>Chọn người bán</option>
+                                        @if (!empty($user))
+                                            @foreach ($user as $item)
+                                            <option value="{{$item->id}}">{{$item->fullname}}</option>
+                                            @endforeach
+                                        @endif
+                                </select>
+                                </div>
                             </div>
-                            {{-- <div class="col-md-8" >
-                                <form action="" method="GET" style="margin: 0 0 5px 0">
-                                    <div class="input-group input-group-md">
-                                        <input type="text" name="search" value="{{old('search')}}" class="form-control form-control-lg" placeholder="Tìm kiếm tên thuốc xuất đi">
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-lg btn-default btn-secondary">
-                                                <i class="fa fa-search"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+                            {{-- <div class="col-sm-12">
+                                <!-- select -->
+                                <div class="form-group">
+                                <label>Tên thuốc cần xuất</label>
+                                <select class="form-control" name="drug_id">
+                                    <option selected disabled>Chọn thuốc cần xuất</option>
+                                        @if (!empty($drug))
+                                            @foreach ($drug as $item)
+                                            <option value="{{$item->id}}">{{$item->drug_name}}</option>
+                                            @endforeach
+                                        @endif
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="">Số lượng xuất</label>
+                                    <input type="number" class="form-control"
+                                    name="quantity_export" pattern="[-+]?[0-9]" min="0" placeholder="Nhập số lượng..." value="{{old('quantity_export')}}">
+                                    @error('quantity_export')
+                                        <span style="color: red">{{$message}}</span>
+                                    @enderror
+                                </div>
                             </div> --}}
                         </div>
-                      <div class="table-responsive p-0">
-                        <table class="table  table-hover text-nowrap">
-                            <thead>
-                              <tr>
-                                <th style="width: 10px">STT</th>
-                                <th>Tên thuốc</th>
-                                <th>Số lượng xuất đi</th>
-                                <th>Giá bán</th>
-                                <th>Đơn vị</th>
-                                <th>Trạng thái</th>
-                                <th>Tổng tiền</th>
-                                <th>Ngày tạo</th>
-                                <th width = "5%">Xóa</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                @if (!empty($list))
-                                    @foreach ($list as $key => $item)
-                                        <tr>
-                                            <td>{{$key+1}}</td>
-                                            <td>{{$item->drug_name}}</td>
-                                            <td>{{$item->quantity_export}}</td>
-                                            <td>{{$item->price}}</td>
-                                            <td>{{$item->unit}}</td>
-                                            <td>{!!$item->status==1 ? '<button class="btn btn-sm btn-danger">Chưa xuất</button>' :
-                                            '<button class="btn btn-sm btn-success">Đã xuất</button>'!!}</td>
-                                            <td>{{$item->total_price}}</td>
-                                            <td>{{$item->created_at}}</td>
-                                            <td>
-                                                <a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{route('export_details.delete',['id'=>$item->id])}}" class ="btn btn-danger btn-md">
-                                                    <i class="fa-solid fa-trash-can"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @else
-                                      <tr>
-                                        <td colspan="7">Không có thuốc xuất đi</td>
-                                      </tr>
-                                @endif
+                      <!-- /.card-body -->
 
-                            </tbody>
-                          </table>
-                      </div>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer clearfix">
-                      <div class="row">
-                        {{-- <div class="col-md-4">
-                            {{$list->appends(request()->all())->links()}}
-                        </div> --}}
-                      </div>
-                    </div>
+                        <div class="card-body">
+                            <div class="row">
+                            </div>
+                        <div class="table-responsive p-0">
+                            <table class="table  table-hover text-nowrap">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10px">STT</th>
+                                    <th>Tên thuốc</th>
+                                    <th>Số lượng xuất đi</th>
+                                    <th>Giá bán</th>
+                                    <th>Đơn vị</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Ngày tạo</th>
+                                    <th width = "5%">Xóa</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    @if (!empty($listUpdate))
+                                        @foreach ($listUpdate as $key => $item)
+                                            <tr>
+                                                <td>{{$key+1}}</td>
+                                                <td>{{$item->drug_name}}</td>
+                                                <td>{{$item->quantity_export}}</td>
+                                                <td>{{number_format($item->price) .'đ'}}</td>
+                                                <td>{{$item->unit}}</td>
+                                                <td>{{number_format($item->total_price).'đ'}}</td>
+                                                <td>{{$item->created_at}}</td>
+                                                <td>
+                                                    <a onclick="return confirm('Bạn có chắc chắn muốn xóa?')" href="{{route('export_details.delete',['id'=>$item->id])}}" class ="btn btn-danger btn-md">
+                                                        <i class="fa-solid fa-trash-can"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="7">Không có thuốc xuất đi</td>
+                                        </tr>
+                                    @endif
+
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-primary">Lưu thông tin</button>
+                            @csrf
+                        </div>
+                    </form>
+
 
                   </div>
             </div>

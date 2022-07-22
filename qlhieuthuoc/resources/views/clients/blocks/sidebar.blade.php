@@ -35,7 +35,7 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
-                <a href="/" class="nav-link">
+                <a href="{{route('master')}}" class="nav-link">
                     <i class="fa-solid fa-house-chimney nav-icon"></i>
                   <p>
                     Trang Chủ
@@ -116,7 +116,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="{{route('export_details.index')}}" class="nav-link">
+                    <a href="{{route('export_details.add')}}" class="nav-link">
                         <i class="fa-solid fa-circle-arrow-up nav-icon"></i>
                       <p>Bán thuốc</p>
                     </a>

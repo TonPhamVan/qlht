@@ -54,15 +54,12 @@
                         </div>
                     </div>
                     <div class="col-sm-12">
-                      <div class="form-group">
-                          <label for="">Ghi chú</label>
-                          <input type="text" class="form-control"
-                            name="note" placeholder="Ghi chú nhóm thuốc..." value="{{old('note') ?? $detail->note}}">
-                            @error('note')
-                                <span style="color: red">{{$message}}</span>
-                            @enderror
-                      </div>
-                  </div>
+                        <!-- select -->
+                        <div class="form-group">
+                            <label>Ghi chú</label>
+                            <textarea name="note" class="form-control" rows="3" placeholder="Nhập..."></textarea>
+                        </div>
+                    </div>
                 </div>
               <!-- /.card-body -->
 

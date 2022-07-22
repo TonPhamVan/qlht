@@ -68,7 +68,7 @@
                                         <tr>
                                             <td>{{$key+1}}</td>
                                             <td>{{$item->name_drug_group}}</td>
-                                            <td>{{$item->note}}</td>
+                                            <td><textarea rows="4" disabled>{{$item->note}}</textarea></td>
                                             <td>{{$item->created_at}}</td>
                                             <td>
                                                 <a href="{{route('drug_groups.getEdit',['id'=>$item->id])}}" class ="btn btn-warning btn-md">
